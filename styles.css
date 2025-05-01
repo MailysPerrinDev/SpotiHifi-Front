@@ -1,0 +1,303 @@
+/*---Declaration des Variables---*/
+:root
+{
+    --primaire: #1DB954;
+    --secondaire: #212121;
+    --terciaire: #121212;
+    --texte: #B3B3B3;
+}
+
+/*---Globalité---*/
+*
+{
+    padding: 0;
+    margin: 0;
+    
+    box-sizing: border-box;
+    
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body{
+    background-color: var(--secondaire);
+    color: var(--texte);
+}
+
+header
+{    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+h1
+{
+    font-size: larger;
+}
+h3
+{
+    font-size: medium;
+}
+h4
+{
+    font-size: small;
+}
+nav
+{
+    background-color: var(--primaire);
+    color: var(--terciaire);
+    
+    padding: 10px;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    
+    position: fixed;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    font-weight: bold;
+}
+
+nav #titre
+{
+    --p: 50px;
+    
+    background-color: var(--primaire);
+    
+    position: absolute;
+    
+    top: 40%;
+    padding-bottom: 1.5em;
+    margin: 0 25%;
+    
+    width: 50%;
+    height: 60%;
+    
+    text-align: center;
+    font-size: x-large;
+    
+    aspect-ratio: 3/2;
+    clip-path: polygon(var(--p) 100%, calc(100% - var(--p)) 100%, 100% 0, 0 0);
+}
+
+#dayNight
+{
+    bottom: 10%;
+    
+    position: fixed;
+    
+    cursor: pointer;
+}
+
+/*---Recherche---*/
+#barreRecherche
+{
+    margin: 10%;
+    height: 2rem;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#barreRecherche div, #recherche
+{
+    background-color: var(--secondaire);
+    padding: 2px;
+}
+
+#barreRecherche img
+{
+    padding-top: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+#recherche
+{
+    color: var(--texte);
+    
+    width: 60%;
+    
+    border: 1px solid var(--primaire);
+    border-right-style: hidden;
+    border-left-style: hidden;
+}
+
+#btnRecherche
+{
+    border: 1px solid var(--primaire);
+    border-right-style: hidden;
+    
+    cursor: pointer;
+}
+
+#btnFiltre
+{
+    border: 1px solid var(--primaire);
+    border-left-style: hidden;
+    
+    cursor: pointer;
+}
+
+/*---Recomandation---*/
+#recommandations
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+/*Musiques*/
+.carteMusique
+{
+    background-color: var(--terciaire);
+    
+    padding: 2px;
+    margin: 30px;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    overflow: hidden;
+}
+
+.description
+{
+    background-color: var(--secondaire);
+    border-radius: 20px;
+    
+    width: 35%;
+    height: 200px;
+    position: relative;
+    
+    padding: 2px;
+    margin: 2%;
+}
+
+.description h2 {
+    margin-bottom: 5px;
+}
+
+.description p
+{
+    max-height: 100%;
+    
+    width: 100%;
+    margin: 2px;
+    
+    font-size: medium;
+    
+    /*Gestion du depassement*/
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+}
+
+.videoTitreArtiste
+{
+    background-color: var(--secondaire);
+    
+    width: 55%;
+    height: 200px;
+    
+    padding: 2px;
+    margin: 2%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.listeTags
+{
+    position: absolute;
+    bottom: 5px;
+    margin: 10px 0;
+    
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    
+}
+
+.tag
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primaire);
+    color: var(--terciaire);
+    padding: 5px;
+    height: 20px;
+    width: 70px;
+    
+    border-radius: 40px;    
+}
+
+.tag span 
+{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    
+    font-size: small;
+}
+
+.tag span:nth-child(3)
+{
+    
+}
+
+/*Albums*/
+#playlists
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+    overflow: hidden;
+}
+
+.cartePlaylist
+{
+    background-color: var(--terciaire);
+    
+    padding: 2%;
+    margin: 2%;
+    width: 28%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    text-align: center;
+}
+
+/*Responsive de Recomandations*/
+@media (min-width: 1200px)
+{
+    
+}
+
+/*---Footer---*/
+footer
+{
+    background-color: var(--primaire);
+    color: var(--terciaire);
+    
+    padding: 2% 2%;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+    font-weight: bold;
+}
