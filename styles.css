@@ -19,7 +19,8 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-body{
+body
+{
     background-color: var(--secondaire);
     color: var(--texte);
 }
@@ -30,8 +31,24 @@ header
     flex-direction: column;
     justify-content: center;
 }
+
+footer
+{
+    background-color: var(--primaire);
+    color: var(--terciaire);
+    
+    padding: 2% 2%;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+    font-weight: bold;
+}
+
 h1
 {
+    margin-left: 2%; 
     font-size: larger;
 }
 h3
@@ -71,6 +88,7 @@ nav #titre
     
     top: 40%;
     padding-bottom: 1.5em;
+    
     margin: 0 25%;
     
     width: 50%;
@@ -79,15 +97,16 @@ nav #titre
     text-align: center;
     font-size: x-large;
     
+    /*trapeze*/
     aspect-ratio: 3/2;
     clip-path: polygon(var(--p) 100%, calc(100% - var(--p)) 100%, 100% 0, 0 0);
 }
 
 #dayNight
 {
-    bottom: 10%;
-    
     position: fixed;
+    
+    bottom: 10%;
     
     cursor: pointer;
 }
@@ -95,8 +114,8 @@ nav #titre
 /*---Recherche---*/
 #barreRecherche
 {
-    margin: 10%;
     height: 2rem;
+    margin: 10%;
     
     display: flex;
     flex-direction: row;
@@ -111,9 +130,10 @@ nav #titre
 
 #barreRecherche img
 {
-    padding-top: 5px;
     width: 30px;
     height: 30px;
+    
+    padding-top: 5px;
 }
 
 #recherche
@@ -164,19 +184,22 @@ nav #titre
     justify-content: space-between;
     
     overflow: hidden;
+    
+    cursor: pointer;
 }
 
 .description
 {
     background-color: var(--secondaire);
-    border-radius: 20px;
+    position: relative;
     
     width: 35%;
     height: 200px;
-    position: relative;
     
     padding: 2px;
     margin: 2%;
+    
+    border-radius: 20px;
 }
 
 .description h2 {
@@ -199,8 +222,8 @@ nav #titre
     overflow: hidden;
 }
 
-.videoTitreArtiste
-{
+.video
+{   
     background-color: var(--secondaire);
     
     width: 55%;
@@ -218,28 +241,30 @@ nav #titre
 {
     position: absolute;
     bottom: 5px;
+    
+    width: 100%;
     margin: 10px 0;
     
     display: flex;
-    width: 100%;
     flex-direction: row;
     justify-content: flex-start;
     gap: 10px;
-    
 }
 
 .tag
 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: var(--primaire);
     color: var(--terciaire);
+
     padding: 5px;
     height: 20px;
     width: 70px;
     
-    border-radius: 40px;    
+    border-radius: 40px;  
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tag span 
@@ -249,11 +274,13 @@ nav #titre
     white-space: nowrap;
     
     font-size: small;
+    
+    cursor: pointer;
 }
 
-.tag span:nth-child(3)
+.tag:nth-child(3)
 {
-    
+    width: fit-content;
 }
 
 /*Albums*/
@@ -270,34 +297,82 @@ nav #titre
 {
     background-color: var(--terciaire);
     
+    width: 28%;
+    
     padding: 2%;
     margin: 2%;
-    width: 28%;
     
     display: flex;
     flex-direction: column;
     justify-content: center;
     
     text-align: center;
+    
+    cursor: pointer;
 }
 
-/*Responsive de Recomandations*/
+/*--Mode pc--*/
 @media (min-width: 1200px)
 {
+    /*Recherche*/
+    #recherche
+    {
+        /*a modifier*/
+    }
     
-}
+    /*Musiques*/
+    #musiques
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .carteMusique
+    {
+        background-color: var(--terciaire);
+    
+        width: 28%; /*La carte n'occupe plus toute la largeur*/
+        
+        padding: 2px;
+        margin: 30px;
+    
+        display: flex;
+        flex-direction: column; /*En colonne plutôt qu'en ligne*/
+        justify-content: space-evenly;
+    
+        overflow: hidden;
+    }
 
-/*---Footer---*/
-footer
-{
-    background-color: var(--primaire);
-    color: var(--terciaire);
+    .description
+    {
+        background-color: var(--secondaire);
+        border-radius: 20px;
+
+        width: 95%; /*plus large*/
+        height: 200px;
+        position: relative;
+
+        padding: 2px;
+        margin: 2%;
+    }
+
+    .video
+    {
+        background-color: var(--secondaire);
+
+        width: 95%; /*plus large*/
+        height: 200px;
+
+        padding: 2px;
+        margin: 2%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
     
-    padding: 2% 2%;
-    
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    
-    font-weight: bold;
+    .cartePlaylist
+    {
+        /*a modifier*/
+    }
 }
