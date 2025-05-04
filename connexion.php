@@ -60,9 +60,8 @@ else
                     $stmt2 = $pdo->prepare("SELECT statut FROM utilisateur WHERE pseudo = :pseudo");
                     $stmt2->bindParam(':pseudo', $pseudo);
                     $stmt2->execute();
-                    $_SERVER['pseudo'] = $pseudo;
-                    $_SERVER['statut'] = $stmt->fetch()[0];
-                    echo ($_SERVER['statut']);
+                    $_SESSION['pseudo'] = $pseudo;
+                    $_SESSION['statut'] = $stmt2->fetch()[0];
 
                     $stmt2->closeCursor();
                 }
