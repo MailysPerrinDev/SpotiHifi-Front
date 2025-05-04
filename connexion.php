@@ -61,7 +61,7 @@ else
                     $stmt2->bindParam(':pseudo', $pseudo);
                     $stmt2->execute();
                     $_SERVER['pseudo'] = $pseudo;
-                    $_SERVER['statut'] = $stmt->fetch();
+                    $_SERVER['statut'] = $stmt->fetch()[0];
                     echo ($_SERVER['statut']);
 
                     $stmt2->closeCursor();
