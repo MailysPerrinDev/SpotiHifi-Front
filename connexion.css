@@ -1,0 +1,58 @@
+:root
+{
+  --spothifi-main: #1DB954;
+  --spothifi-bloc: #121212;
+  --spothifi-fond: #212121;
+  --spothifi-gris: #535353;
+  --spothifi-ecriture: #B3B3B3;
+}
+body
+{
+  background-color: var(--spothifi-fond);
+}
+.bloc_connexion 
+{
+  background-color: var(--spothifi-bloc);
+  color: var(--spothifi-ecriture);
+  justify-content : center;
+  text-align: center;
+  margin: 10% 15% 15% 15%;
+  padding: 20px 20px 50px 20px;
+  border-radius: 2em;
+}
+
+.bloc_connexion h1
+{
+  color: var(--spothifi-main);
+}
+.bloc_connexion .titre
+{
+  text-align: left;
+  justify-content: left;
+}
+
+.bloc_connexion input
+{
+  background-color: var(--spothifi-fond);
+  color: var(--spothifi-ecriture);
+  border: none;
+  padding: 3px 5px;
+  margin: 1em;
+}
+
+
+input[name="mdp"]
+{
+  -webkit-text-security:disc !important;
+}
+
+
+button.connexion
+{
+  background-color: var(--spothifi-main);
+  color: var(--spothifi-bloc);
+  font-style: bold;
+  border-radius: 2em;
+  border: none;
+  padding: 10px 50px;
+}
