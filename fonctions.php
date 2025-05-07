@@ -25,7 +25,6 @@ function creation_fichier_image($pdo, $id_photo, $nom_img)
         echo '<p>Problème PDO</p>';
         echo $e->getMessage();
     }
-    $stmt->closeCursor();  
 }
 
 function afficher_img_profil($img_profil, $id_img, $l, $h, $message)
