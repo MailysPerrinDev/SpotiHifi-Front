@@ -12,6 +12,8 @@
 
 <?php
 session_start();
+include('fonctions.php');
+include('connex.inc.php');
 
 function afficheFormulaire($p, $e_connexion){
     echo ("<form class='connexion' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
@@ -63,7 +65,26 @@ else
                     $_SESSION['pseudo'] = $pseudo;
                     $_SESSION['id'] = $stmt2->fetch()[0];
                     $_SESSION['statut'] = $stmt2->fetch()[1];
+                    
+                    /*création fichier image de profil de l'utilisateur*/
+                    $img_defaut = "img/Tests/renard.jpg";
+                    $img_tmp = "img/$pseudo.jpg";
+                    //on cherche si l'utilisateur a une photo de profil
+                    $stmt2 = $pdo->prepare("SELECT id_photo FROM photo_utilisateur WHERE id_utilisateur = :id");
+                    $stmt2->bindParam(':id', $_SESSION['id']);
+                    $stmt2->execute();
 
+                    if ($stmt2->rowCount() != 0) //Si l'utilisateur a une photo
+                    {
+                        $id_photo = $stmt2->fetch()[0];
+                        creation_fichier_image($pdo, $id_photo, $img_tmp);
+                        $_SESSION['img_profil'] = $img_tmp;                        
+                    }
+                    else
+                    {
+                        $_SESSION['img_profil'] = $img_defaut;
+                    }
+                    
                     $stmt2->closeCursor();
                 }
                 catch(PDOException $e)
@@ -71,7 +92,6 @@ else
                     echo '<p>Problème PDO</p>';
                     echo $e->getMessage();
                 }
-                
             }
 
             $stmt->closeCursor();
