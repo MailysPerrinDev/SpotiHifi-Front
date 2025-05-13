@@ -114,8 +114,8 @@ nav #titre
 /*---Recherche---*/
 #barreRecherche
 {
-    height: 2rem;
-    margin: 10%;
+    margin: 5%;
+    padding: 2em;
     
     display: flex;
     flex-direction: row;
@@ -140,7 +140,8 @@ nav #titre
 {
     color: var(--texte);
     
-    width: 60%;
+    width: 70%;
+    outline: none;
     
     border: 1px solid var(--primaire);
     border-right-style: hidden;
@@ -312,14 +313,8 @@ nav #titre
 }
 
 /*--Mode pc--*/
-@media (min-width: 1200px)
+@media (min-width: 1000px)
 {
-    /*Recherche*/
-    #recherche
-    {
-        /*a modifier*/
-    }
-    
     /*Musiques*/
     #musiques
     {
@@ -373,6 +368,19 @@ nav #titre
     
     .cartePlaylist
     {
-        /*a modifier*/
+        background-color: var(--terciaire);
+
+        width: 18%;
+
+        padding: 2%;
+        margin: 2%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        text-align: center;
+
+        cursor: pointer;
     }
 }
