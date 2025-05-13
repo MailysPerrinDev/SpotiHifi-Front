@@ -59,6 +59,11 @@ h4
 {
     font-size: small;
 }
+
+hr
+{
+    border-bottom: solid 1px var(--primaire);
+}
 nav
 {
     background-color: var(--primaire);
@@ -121,7 +126,7 @@ nav #titre
 
 #barreRecherche img
 {
-    width: 30px;
+    max-width: 30px;
     height: 30px;
     
     padding-top: 5px;
@@ -134,14 +139,14 @@ nav #titre
     width: 70%;
     outline: none;
     
-    border: 1px solid var(--primaire);
+    border: 2px solid var(--primaire);
     border-right-style: hidden;
     border-left-style: hidden;
 }
 
 #btnRecherche
 {
-    border: 1px solid var(--primaire);
+    border: 2px solid var(--primaire);
     border-right-style: hidden;
     
     cursor: pointer;
@@ -149,7 +154,7 @@ nav #titre
 
 #btnFiltre
 {
-    border: 1px solid var(--primaire);
+    border: 2px solid var(--primaire);
     border-left-style: hidden;
     
     cursor: pointer;
@@ -167,7 +172,6 @@ nav #titre
 .carteMusique
 {
     background-color: var(--terciaire);
-    
     padding: 2px;
     margin: 30px;
     
@@ -186,7 +190,7 @@ nav #titre
     position: relative;
     
     width: 35%;
-    height: 200px;
+    height: 230px;
     
     padding: 2px;
     margin: 2%;
@@ -219,14 +223,21 @@ nav #titre
     background-color: var(--secondaire);
     
     width: 55%;
-    height: 200px;
+    height: 230px;
     
     padding: 2px;
     margin: 2%;
     
     display: flex;
-    flex-direction: column;
     justify-content: center;
+}
+
+.video img
+{
+    height: 100%;
+    width: 100%;
+    
+    object-fit: cover;
 }
 
 .listeTags
@@ -277,9 +288,10 @@ nav #titre
 
 /*Albums*/
 #playlists
-{
+{    
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-around;
     
     overflow: hidden;
@@ -304,20 +316,21 @@ nav #titre
 }
 
 /*--Mode pc--*/
-@media (min-width: 1000px)
+@media (orientation: landscape) and (min-width: 900px)
 {
     /*Musiques*/
     #musiques
     {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-around;
     }
     .carteMusique
     {
         background-color: var(--terciaire);
     
-        width: 28%; /*La carte n'occupe plus toute la largeur*/
+        width: 25%; /*La carte n'occupe plus toute la largeur*/
         
         padding: 2px;
         margin: 30px;
