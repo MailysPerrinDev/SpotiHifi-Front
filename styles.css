@@ -218,7 +218,7 @@ nav #titre
     overflow: hidden;
 }
 
-.video
+.carteMusique .couverture
 {   
     background-color: var(--secondaire);
     
@@ -232,7 +232,7 @@ nav #titre
     justify-content: center;
 }
 
-.video img
+.carteMusique .couverture img
 {
     height: 100%;
     width: 100%;
@@ -319,14 +319,14 @@ nav #titre
 @media (orientation: landscape) and (min-width: 900px)
 {
     /*Musiques*/
-    #musiques
+    #musiques, #playlists
     {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-around;
     }
-    .carteMusique
+    .carteMusique, .cartePlaylist
     {
         background-color: var(--terciaire);
     
@@ -355,7 +355,7 @@ nav #titre
         margin: 2%;
     }
 
-    .video
+    .couverture
     {
         background-color: var(--secondaire);
 
@@ -369,22 +369,12 @@ nav #titre
         flex-direction: column;
         justify-content: center;
     }
+    .couverture img
+    {   
+        height: 100%;
+        width: 100%;
     
-    .cartePlaylist
-    {
-        background-color: var(--terciaire);
-
-        width: 18%;
-
-        padding: 2%;
-        margin: 2%;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        text-align: center;
-
-        cursor: pointer;
-    }
+        object-fit: cover;
+    }   
+    
 }
