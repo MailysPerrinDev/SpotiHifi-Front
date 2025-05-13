@@ -102,15 +102,6 @@ nav #titre
     clip-path: polygon(var(--p) 100%, calc(100% - var(--p)) 100%, 100% 0, 0 0);
 }
 
-#dayNight
-{
-    position: fixed;
-    
-    bottom: 10%;
-    
-    cursor: pointer;
-}
-
 /*---Recherche---*/
 #barreRecherche
 {
