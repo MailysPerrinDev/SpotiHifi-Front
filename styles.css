@@ -39,6 +39,8 @@ footer
     
     padding: 2% 2%;
     
+    bottom: 0;
+    
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -168,6 +170,26 @@ nav #titre
     justify-content: space-around;
 }
 
+/*Couverture des cartes*/
+.couverture
+{
+    background-color: var(--secondaire);
+    
+    padding: 2%;
+    margin: 2%;
+    
+    display: flex;
+    justify-content: center;
+}
+
+.couverture img
+{
+    height: 100%;
+    width: 100%;
+    
+    object-fit: cover;
+}
+
 /*Musiques*/
 .carteMusique
 {
@@ -189,7 +211,7 @@ nav #titre
     background-color: var(--secondaire);
     position: relative;
     
-    width: 35%;
+    width: 45%;
     height: 230px;
     
     padding: 2px;
@@ -220,24 +242,8 @@ nav #titre
 
 .carteMusique .couverture
 {   
-    background-color: var(--secondaire);
-    
     width: 55%;
     height: 230px;
-    
-    padding: 2px;
-    margin: 2%;
-    
-    display: flex;
-    justify-content: center;
-}
-
-.carteMusique .couverture img
-{
-    height: 100%;
-    width: 100%;
-    
-    object-fit: cover;
 }
 
 .listeTags
@@ -303,7 +309,7 @@ nav #titre
     
     width: 28%;
     
-    padding: 2%;
+    padding: 2px;
     margin: 2%;
     
     display: flex;
@@ -313,6 +319,11 @@ nav #titre
     text-align: center;
     
     cursor: pointer;
+}
+
+.cartePlaylist .couverture
+{   
+    height: 95%;
 }
 
 /*--Mode pc--*/
@@ -358,8 +369,8 @@ nav #titre
     .couverture
     {
         background-color: var(--secondaire);
-
-        width: 95%; /*plus large*/  
+ 
+        width: 95%;
         height: 200px;
 
         padding: 2px;
@@ -369,6 +380,12 @@ nav #titre
         flex-direction: column;
         justify-content: center;
     }
+    
+    .carteMusique .couverture
+    {
+        width: 95%;
+    }
+    
     .couverture img
     {   
         height: 100%;
