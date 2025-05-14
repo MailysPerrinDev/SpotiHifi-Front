@@ -274,7 +274,7 @@ nav #titre
     width: 45%;
     height: 230px;
     
-    padding: 2px;
+    padding: 2%;
     margin: 2%;
     
     border-radius: 20px;
@@ -440,7 +440,7 @@ nav #titre
         height: 200px;
         position: relative;
 
-        padding: 2px;
+        padding: 2%;
         margin: 2%;
     }
 
