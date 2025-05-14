@@ -150,7 +150,7 @@ nav #titre
 #barreRecherche div, #recherche
 {
     background-color: var(--secondaire);
-    padding: 2px;
+    padding: 6px;
 }
 
 #barreRecherche img
@@ -205,8 +205,11 @@ nav #titre
     padding: 2%;
     margin: 2%;
     
-    display: flex;
-    justify-content: center;
+    width: 95%;
+    
+    overflow: clip;
+    align-items: center;
+    
 }
 
 .couverture img
@@ -325,7 +328,7 @@ nav #titre
     width: fit-content;
 }
 
-/*Albums*/
+/*Playlists et Albums*/
 #playlists
 {    
     display: flex;
@@ -347,8 +350,7 @@ nav #titre
     
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    
+    align-items: center;
     text-align: center;
     
     cursor: pointer;
@@ -356,6 +358,7 @@ nav #titre
 
 .cartePlaylist .couverture
 {   
+    margin: 4%;
     height: 95%;
 }
 
@@ -393,12 +396,12 @@ nav #titre
         background-color: var(--terciaire);
     
         width: 25%; /*La carte n'occupe plus toute la largeur*/
-        
-        padding: 2px;
-        margin: 30px;
+        padding: 2%;
+        margin: 2%;
     
         display: flex;
         flex-direction: column; /*En colonne plutôt qu'en ligne*/
+        align-items: center;
         justify-content: space-evenly;
     
         overflow: hidden;
@@ -422,27 +425,12 @@ nav #titre
         background-color: var(--secondaire);
  
         width: 95%;
-        height: 200px;
-
-        padding: 2px;
+    
         margin: 2%;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
     
     .carteMusique .couverture
     {
         width: 95%;
-    }
-    
-    .couverture img
-    {   
-        height: 100%;
-        width: 100%;
-    
-        object-fit: cover;
     }   
-    
 }
