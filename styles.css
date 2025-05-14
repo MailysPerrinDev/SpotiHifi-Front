@@ -217,6 +217,12 @@ nav #titre
     object-fit: cover;
 }
 
+/*Interactivté des cartes*/
+.carteMusique:hover, .cartePlaylist:hover
+{
+    border: solid 2px var(--primaire);
+}
+
 /*Musiques*/
 .carteMusique
 {
