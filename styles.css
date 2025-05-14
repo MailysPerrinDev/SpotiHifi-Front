@@ -134,6 +134,11 @@ nav #titre
     clip-path: polygon(var(--p) 100%, calc(100% - var(--p)) 100%, 100% 0, 0 0);
 }
 
+nav div
+{
+    cursor: pointer;
+}
+
 /*--Profile--*/
 #profile
 {
@@ -292,6 +297,13 @@ nav #titre
 
 .description h2 {
     margin-bottom: 5px;
+    max-height: 20%;
+    
+    /*Gestion du depassement*/
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
 }
 
 .description p
@@ -306,7 +318,7 @@ nav #titre
     /*Gestion du depassement*/
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: 5;
     overflow: hidden;
 }
 
@@ -339,6 +351,7 @@ nav #titre
     height: 20px;
     width: 70px;
     
+    border: none;
     border-radius: 40px;  
     
     display: flex;
