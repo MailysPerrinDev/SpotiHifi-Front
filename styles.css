@@ -164,7 +164,9 @@ nav #titre
 #barreRecherche
 {
     margin: 5%;
+    margin-bottom: 0;
     padding: 2em;
+    padding-bottom: 1%;
     
     display: flex;
     flex-direction: row;
@@ -193,7 +195,6 @@ nav #titre
     outline: none;
     
     border: 2px solid var(--primaire);
-    border-right-style: hidden;
     border-left-style: hidden;
 }
 
@@ -205,17 +206,26 @@ nav #titre
     cursor: pointer;
 }
 
-#btnFiltre
+/*---Menu filtre par tag---*/
+#menuFiltre
 {
-    border: 2px solid var(--primaire);
-    border-left-style: hidden;
+    margin: 5%;
+    margin-top: 0; 
     
-    cursor: pointer;
+    padding: 5%;
+    padding-top: 0;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    gap: 10px;
 }
 
 /*---Recomandation---*/
 #recommandations
-{
+{    
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -347,7 +357,7 @@ nav #titre
     cursor: pointer;
 }
 
-.tag:nth-child(3)
+.carteMusique .tag:nth-child(3)
 {
     width: fit-content;
 }
