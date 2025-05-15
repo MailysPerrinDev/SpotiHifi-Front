@@ -42,7 +42,6 @@ else
         $pseudo = $_POST['pseudo'];
         $mdp = md5($_POST['mdp']);
         
-        include('connex.inc.php');
         $pdo = connex("spothifi");
         try
         {
