@@ -134,4 +134,39 @@ function afficher_img_profil($img_profil, $id_img, $l, $h, $message)
     }
     echo("</figure>");  
 }
+
+function modifier_statut_utilisateur($pdo, $id_utilisateur, $statut)
+{
+    try
+    {
+        if($statut == 0)//si veux devenir utilisateur lambda
+        {
+            $stmt = $pdo->prepare("DELETE FROM ajouter WHERE id_musique IN (
+                SELECT id FROM musique WHERE id_artiste = :id);
+                DELETE FROM musique WHERE id_artiste = :id;"
+                );
+            $stmt->bindParam(':id', $id_utilisateur);
+            $stmt->execute();
+        }
+
+
+        $stmt = $pdo->prepare("UPDATE utilisateur SET statut = :statut WHERE id = :id");
+        $stmt->bindParam(':id', $id_utilisateur);
+        $stmt->bindParam(':statut', $statut);
+        $stmt->execute();
+
+        if($stmt->rowCount() != 0)
+        {
+            $_SESSION['statut'] = $statut;
+        }
+
+        $stmt->closeCursor();
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+}
+
 ?>
