@@ -291,6 +291,12 @@ nav a
     overflow: hidden;
     
     cursor: pointer;
+    
+    .couverture
+    {      
+        width: 55%;
+        height: 230px;
+    }
 }
 
 .description
@@ -305,41 +311,37 @@ nav a
     margin: 2%;
     
     border-radius: 20px;
+    
+    h2
+    {
+        margin-bottom: 5px;
+        max-height: 20%;
+
+        /*Gestion du depassement*/
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+    }
+
+    p
+    {
+        max-height: 100%;
+
+        width: 100%;
+        margin: 2px;
+
+        font-size: medium;
+
+        /*Gestion du depassement*/
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+        overflow: hidden;
+    }
 }
 
-.description h2 {
-    margin-bottom: 5px;
-    max-height: 20%;
-    
-    /*Gestion du depassement*/
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-}
-
-.description p
-{
-    max-height: 100%;
-    
-    width: 100%;
-    margin: 2px;
-    
-    font-size: medium;
-    
-    /*Gestion du depassement*/
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
-    overflow: hidden;
-}
-
-.carte_musique .couverture
-{   
-    width: 55%;
-    height: 230px;
-}
-
+/*--Tags--*/
 .liste_tags
 {
     position: absolute;
@@ -369,17 +371,17 @@ nav a
     display: flex;
     align-items: center;
     justify-content: center;
-}
 
-.tag span 
-{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    
-    font-size: small;
-    
-    cursor: pointer;
+    span 
+    {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        font-size: small;
+
+        cursor: pointer;
+    }
 }
 
 .carte_musique .tag:nth-child(3)
@@ -413,12 +415,12 @@ nav a
     text-align: center;
     
     cursor: pointer;
-}
 
-.carte_playlist .couverture
-{   
-    margin: 4%;
-    height: 95%;
+    .couverture
+    {   
+        margin: 4%;
+        height: 95%;
+    }   
 }
 
 /*--Connexion & Inscription--*/
@@ -487,23 +489,12 @@ nav a
 /*--Mode pc--*/
 @media (orientation: landscape) and (min-width: 900px)
 {
-    *
-    {
-        padding: 0;
-        margin: 0;
-
-        box-sizing: border-box;
-
-        font-size: 30px;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
     /*Profile*/
     #pdp
     {
         height: 200px;
         width: 200px;
         margin-top: 10%;
-        align-self: center;
     }
     /*Musiques*/
     #musiques, #playlists

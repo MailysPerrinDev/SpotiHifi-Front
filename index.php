@@ -96,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-            <br />
+            <br>
             <h1>Quelques playlist/albums</h1>
             <hr>
             <div id="playlists">
