@@ -69,6 +69,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             <br>
             <h1>Quelques playlist/albums</h1>
             <hr>
@@ -89,12 +90,12 @@
                     <h4>Anarisil</h4>
                 </div>
                 <div class="carte_playlist">
-                    <div class="couverture"><img src="" alt=""></div>
+                    <div class="couverture"><img src="img/photoParDefaut.png" alt=""></div>
                     <h3>Meilleur Playlist Ever</h3>
                     <h4>Anarisil</h4>
                 </div>
                 <div class="carte_playlist">
-                    <div class="couverture"><img src="" alt="couvertureGoodKid"></div>
+                    <div class="couverture"><img src="img/photoParDefaut.png" alt="couvertureGoodKid"></div>
                     <h3>Meilleur Playlist Ever</h3>
                     <h4>Anarisil</h4>
                 </div>
