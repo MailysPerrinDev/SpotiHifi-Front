@@ -17,9 +17,9 @@
             <?php
                 creation_nav(isset($_SESSION['pseudo']));
                 if (isset($_SESSION['pseudo'])){
-                    echo("<div id='profile'><div id='pdp'>");
+                    echo("<div id='profile'>");
                     afficher_img_profil($_SESSION['photo'], NULL, NULL, NULL, NULL);
-                    echo("<h2>Bienvenu ".$_SESSION['pseudo']."!</h2></div>");
+                    echo("<h2>Bienvenu ".$_SESSION['pseudo']."!</h2>>");
                 }
                 creation_recherche($pdo);
             ?>

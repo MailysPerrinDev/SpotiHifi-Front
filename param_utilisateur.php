@@ -26,6 +26,7 @@ session_start();
 include('fonctions.php');
 include('connex.inc.php');
 
+creation_nav(isset($_SESSION['pseudo']));
 if(!isset($js))
 	$js = 0;
 
@@ -172,5 +173,5 @@ else
 			break;
 	}
 }
-
+creation_footer();
 ?>
