@@ -11,6 +11,26 @@ function creation_nav()
         ");
 }
 
+function creation_recherche()
+{
+    echo("
+        <div id='barre_recherche'>
+            <div id='btn_recherche'>
+                <img src='img/logoRecherche.svg' alt='valider'>
+            </div>
+            <input id='recherche' type='text' placeholder='Recherche...''>
+        </div>
+        <div id='menu_filtre'>
+            <button class='tag'><span>Jazz</span></button>
+            <button class='tag'><span>Rock</span></button>
+            <button class='tag'><span>Metal</span></button>
+            <button class='tag'><span>Pop</span></button>
+            <button class='tag'><span>Electronique</span></button>
+            <button class='tag'><span>Techno</span></button>
+        </div>
+        ");/*algo des tags à venir*/
+}
+
 function creation_footer()
 {
     echo("

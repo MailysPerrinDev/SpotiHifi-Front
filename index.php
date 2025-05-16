@@ -20,21 +20,8 @@
                     afficher_img_profil($_SESSION['photo'], NULL, NULL, NULL, NULL);
                     echo("<h2>Bon retour parmi nous".$_SESSION['pseudo']."!</h2></div>");
                 }
+                creation_recherche();
             ?>
-            <div id="barre_recherche">
-                <div id="btn_recherche">
-                    <img src="img/logoRecherche.svg" alt="ValiderRecherche">
-                </div>
-                <input id="recherche" type="text" placeholder="Solence...">
-            </div>
-            <div id="menu_filtre">
-                <button class="tag"><span>Jazz</span></button>
-                <button class="tag"><span>Rock</span></button>
-                <button class="tag"><span>Metal</span></button>
-                <button class="tag"><span>Pop</span></button>
-                <button class="tag"><span>Electronique</span></button>
-                <button class="tag"><span>Techno</span></button>
-            </div>
         </header>
         <h1>Nos Selections</h1>
         <hr>
@@ -79,20 +66,6 @@
                         <div class="liste_tags">
                             <button class="tag"><span>zoizo</span></button>
                             <button class="tag"><span>jazz</span></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="carte_musique">
-                    <div class="couverture">
-                        <img src="img/Tests/ecureuil.jpg">
-                    </div>
-                    <div class="description">
-                        <h2>Imagine Cureuil</h2>
-                        <p>Best mix de l'automne</p>
-                        <div class="listeTags">
-                            <button class="tag"><span>title</span></button>
-                            <button class="tag"><span>troptropmimi</span></button>
-                            <button class="tag"><span>...</span></button>
                         </div>
                     </div>
                 </div>
