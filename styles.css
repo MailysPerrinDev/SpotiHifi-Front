@@ -570,3 +570,9 @@ nav a
         border-radius: 2em;
     }
 }
+
+/*Parties essentielles au fonctionnement mais doivent être invisibles*/
+.fonction
+{
+    display: none;
+}
