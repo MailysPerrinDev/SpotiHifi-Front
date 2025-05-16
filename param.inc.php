@@ -1,5 +1,5 @@
 <?php
 define("HOTE","localhost");
-define("UTILISATEUR","lulu");
-define("PASSE","SoLeNCe!");
+define("UTILISATEUR","Mailys");
+define("PASSE","S0l3nCe!");
 ?>

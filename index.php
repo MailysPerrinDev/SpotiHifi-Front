@@ -18,7 +18,7 @@
                 if (isset($_SESSION['pseudo'])){
                     echo("<div id='profile'><div id='pdp'>");
                     afficher_img_profil($_SESSION['photo'], NULL, NULL, NULL, NULL);
-                    echo("<h2>Bon retour parmi nous".$_SESSION['pseudo']."!</h2></div>");
+                    echo("<h2>Bon retour parmi nous ".$_SESSION['pseudo']."!</h2></div>");
                 }
                 creation_recherche();
             ?>

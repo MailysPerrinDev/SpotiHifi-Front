@@ -13,22 +13,22 @@ function creation_nav()
 
 function creation_recherche()
 {
+    $i = 0;
     echo("
         <div id='barre_recherche'>
             <div id='btn_recherche'>
                 <img src='img/logoRecherche.svg' alt='valider'>
             </div>
             <input id='recherche' type='text' placeholder='Recherche...''>
-        </div>
-        <div id='menu_filtre'>
-            <button class='tag'><span>Jazz</span></button>
-            <button class='tag'><span>Rock</span></button>
-            <button class='tag'><span>Metal</span></button>
-            <button class='tag'><span>Pop</span></button>
-            <button class='tag'><span>Electronique</span></button>
-            <button class='tag'><span>Techno</span></button>
-        </div>
-        ");/*algo des tags à venir*/
+        </div>"
+        );
+    echo("<div id='menu_filtre'>");
+        while ($i<6)
+        {
+            echo("<button class='tag'><span>Jazz</span></button>");
+            $i ++;
+        }
+    echo("</div>");
 }
 
 function creation_footer()
@@ -81,6 +81,10 @@ function afficher_img_profil($img_profil, $id_img, $l, $h, $message)
     if(!is_null($h))
     {
         $h = "height=".$h;
+    }
+    if(is_null($img_profil))
+    {
+        $img_profil = "img/photoParDefaut.png";
     }
 
     echo("<figure>");
