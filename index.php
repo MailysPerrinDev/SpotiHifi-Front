@@ -19,7 +19,7 @@
                 if (isset($_SESSION['pseudo'])){
                     echo("<div id='profile'>");
                     afficher_img_profil($_SESSION['photo'], NULL, NULL, NULL, NULL);
-                    echo("<h2>Bienvenu ".$_SESSION['pseudo']."!</h2>>");
+                    echo("<h2>Bienvenu ".$_SESSION['pseudo']."!</h2></div>");
                 }
                 creation_recherche($pdo);
             ?>

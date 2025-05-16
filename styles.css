@@ -23,6 +23,11 @@ body
 {
     background-color: var(--secondaire);
     color: var(--texte);
+    
+    height: 100vh;
+    
+    display: flex;
+    flex-direction: column;
 }
 
 header
@@ -36,9 +41,11 @@ footer
 {
     background-color: var(--primaire);
     color: var(--terciaire);
+    position: relative;
     
+    width: 100%;
     padding: 2% 2%;
-    
+    margin-top: auto;
     bottom: 0;
     
     display: flex;
@@ -158,6 +165,11 @@ nav a
     
     display: flex;
     flex-direction: column;
+}
+
+#profile button
+{
+    margin: auto;
 }
 
 #pdp
@@ -493,6 +505,38 @@ nav a
         color: var(--primaire);
     }
 }
+
+/*--Parametre du compte--*/
+#fond_profile
+{
+    background-color: var(--terciaire);
+    position: absolute;
+    
+    z-index: -1;
+    
+    width: 96%;
+    height: 65vmin;
+    
+    right: 2%;
+    left: 2%;
+    top: 15vmax;
+}
+
+#modif_infos
+{
+    background-color: var(--terciaire);
+    
+    margin: 2%;
+    padding: 2%;
+    padding-bottom: 13%;
+    
+    button.modif
+    {
+        margin: 2%;
+    }
+}
+
+
 
 /*--Mode pc--*/
 @media (orientation: landscape) and (min-width: 900px)

@@ -52,22 +52,24 @@ function afficher_param_base($js)
 {
 	$img_modif = 'kuhik';
 	/*photo de profil*/
-	echo("<div>");
+	echo("<div id='fond_profile'></div>");
+	echo("<div id='profile'>");
 	afficher_img_profil($_SESSION['img_profil'], null, "140", "100", null);
 	echo("<button type='button' class='modif' onclick='modifier_photo()'>");
 	echo("<img href=$img_modif alt='modifier'></button>");
 	echo('</div><br>');
 
+	/*Modification informations*/
+	echo("<div id='modif_infos'>");
+	
 	/*pseudo*/
-	echo('<div>');
 	echo($_SESSION['pseudo']);
 	echo("<button type='button' class='modif' onclick='afficher_form(0)'>");
 	echo("<img href=$img_modif alt='modifier'></button><br>");
 	modifier('pseudo', $js);
-	echo('</div><br>');
+	echo('<br>');
 
 	/*adresse mail*/
-	echo('<div>');
 	echo("<label>Adresse mail");
 	echo("<button type='button' class='modif' onclick='afficher_form(1)'>");
 	echo("<img href=$img_modif alt='modifier'></button></label>");
@@ -91,27 +93,28 @@ function afficher_param_base($js)
         echo $e->getMessage();
     } 
     modifier('mail', $js);
-    echo('</div><br>');
+    echo('<br>');
 
 	/*mot de passe*/
-	echo('<div>');
 	echo("<label>Mot de passe");
 	echo("<button type='button' class='modif' onclick='afficher_form(2)'>");
 	echo("<img href=$img_modif alt='modifier'></button></label><br>");
 	modifier('mdp', $js);
-	echo('</div><br>');
+	echo('<br>');
 }
 
 function afficher_param_normal()
 {
 	echo("<form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
-	echo("<label>Voulez-vous passer en compte artiste ?<button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_artiste' value='oui'></label>");
+	echo("<label>Passer en compte artiste : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_artiste' value='oui'></label>");
+	echo("</div>"); /*div modif_info (fond noir)*/
 }
 
 function afficher_param_artiste($js)
 {
 	echo("<form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
-	echo("<label>Voulez-vous passer en compte lambda ?<button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
+	echo("<label>Passer en compte lambda : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
+	echo("</div>");
 }
 
 function afficher_param_admin($js)
