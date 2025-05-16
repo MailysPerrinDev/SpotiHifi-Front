@@ -4,6 +4,17 @@
 	<meta charset="utf-8">
 	<title>SpotHifi: Gestion compte</title>
 	<link rel="stylesheet" href="styles.css">
+	<script language="javascript">
+	  function testJavascript() {
+	    // test pour valider que Javascript fonctionne
+	    if (! document.getElementById)
+	    {
+	       <?php $js= 1; ?>
+	    }
+	  }
+	  testJavascript();
+	</script>
+	<script src="script.js"></script>
 </head>
 <body>
 	
@@ -13,41 +24,54 @@
 <?php
 session_start();
 include('fonctions.php');
+include('connex.inc.php');
 
-function modifier($param)
+if(!isset($js))
+	$js = 0;
+
+function modifier($param, $js)
 {
-	echo("<form class='modif'>");
+	if($js)//si javscript ou pas
+		$class = 'fonction';
+	else
+		$class = 'modif';
+
+	echo("<form class='$class' id=$param action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	if($param == 'mot de passe')
 	{
-		echo("<label>Ancien $param<br><input type='text' name='a_$param' required='required'></label><br>");
+		echo("<label>Ancien $param<br><input type='text' name='a_$param' required='required'></>input</label><br>");
 	}
-	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required'></label><br>");
+	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required'></input></label><br>");
 	echo("<button type='submit'>Confirmer</button>");
 	echo("<button type='button'>Annuler</button>");
 	echo("</form>");
 }
 
-function afficher_param_normaux()
+function afficher_param_base($js)
 {
+	$img_modif = 'kuhik';
 	/*photo de profil*/
 	echo("<div>");
 	afficher_img_profil($_SESSION['img_profil'], null, "140", "100", null);
-	echo("<button type='button' class='modif' onclick='modifier_photo()'><img href='' alt='modifier'></button>");
+	echo("<button type='button' class='modif' onclick='modifier_photo()'>");
+	echo("<img href=$img_modif alt='modifier'></button>");
 	echo('</div><br>');
 
 	/*pseudo*/
 	echo('<div>');
 	echo($_SESSION['pseudo']);
-	echo("<button type='button' class='modif' onclick='modifier('pseudo')'><img href='' alt='modifier'></button>");
+	echo("<button type='button' class='modif' onclick='afficher_form(0)'>");
+	echo("<img href=$img_modif alt='modifier'></button><br>");
+	modifier('pseudo', $js);
 	echo('</div><br>');
 
 	/*adresse mail*/
 	echo('<div>');
 	echo("<label>Adresse mail");
-	echo("<button type='button' class='modif' onclick='modifier('adresse mail')'><img href='' alt='modifier'></button></label>");
+	echo("<button type='button' class='modif' onclick='afficher_form(1)'>");
+	echo("<img href=$img_modif alt='modifier'></button></label>");
 	
 	//recup du mail
-	include('connex.inc.php');
 	$pdo = connex("spothifi");
 	try
     {
@@ -55,7 +79,7 @@ function afficher_param_normaux()
         $stmt->bindParam(':id', $_SESSION['id']);
         $stmt->execute();
 
-        echo ("<br>".$stmt->fetch()[0]);
+        echo ("<br>".$stmt->fetch()[0]."<br>");
 
         $stmt->closeCursor();
         $pdo=null;
@@ -65,21 +89,31 @@ function afficher_param_normaux()
         echo '<p>Problème PDO</p>';
         echo $e->getMessage();
     } 
+    modifier('mail', $js);
     echo('</div><br>');
 
 	/*mot de passe*/
 	echo('<div>');
 	echo("<label>Mot de passe");
-	echo("<button type='button' class='modif' onclick='modifier('mot de passe')'><img href='' alt='modifier'></button></label>");
+	echo("<button type='button' class='modif' onclick='afficher_form(2)'>");
+	echo("<img href=$img_modif alt='modifier'></button></label><br>");
+	modifier('mdp', $js);
 	echo('</div><br>');
 }
 
-function afficher_param_artiste()
+function afficher_param_normal()
 {
-	/*à venir*/
+	echo("<form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<label>Voulez-vous passer en compte artiste ?<button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_artiste' value='oui'></label>");
 }
 
-function afficher_param_admin()
+function afficher_param_artiste($js)
+{
+	echo("<form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<label>Voulez-vous passer en compte lambda ?<button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
+}
+
+function afficher_param_admin($js)
 {
 	/*à venir*/
 }
@@ -99,15 +133,44 @@ if(!isset($_SESSION['pseudo']))
 }
 else
 {
-	afficher_param_normaux();
+	/*Si paramètres changés*/
+
+	$pdo = connex("spothifi");
+
+	if(isset($_POST['n_pseudo']))
+		modifier_utilisateur($pdo, $_SESSION['id'], "pseudo", $_POST['n_pseudo']);
+	else if(isset($_POST['n_mail']))
+		modifier_utilisateur($pdo, $_SESSION['id'], "adresse_mail", $_POST['n_mail']);
+	else if(isset($_POST['n_mdp']))
+	{
+		//faut vérifier si bon mot de passe
+		modifier_utilisateur($pdo, $_SESSION['id'], "mdp", $_POST['n_mdp']);
+	}
+	else if(isset($_POST['veux_artiste']))
+	{		
+		modifier_statut_utilisateur($pdo, $_SESSION['id'], 1);
+		$pdo=null;
+	}
+	else if (isset($_POST['veux_lambda'])) 
+	{
+		modifier_statut_utilisateur($pdo, $_SESSION['id'], 0);
+	}
+	$pdo=null;
+
+	/*affichage de la page*/
+	afficher_param_base($js);
 	switch($_SESSION['statut'])
 	{
+		case 0:
+			afficher_param_normal();
+			break;
 		case 1:
-			afficher_param_artiste();  
+			afficher_param_artiste($js);  
 			break;
 		case 2:
-			afficher_param_admin();
+			afficher_param_admin($js);
 			break;
 	}
 }
+
 ?>
