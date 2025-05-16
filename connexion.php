@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>SpotHifi: Connexion</title>
-        <link rel="stylesheet" href="connexion.css">
+        <link rel="stylesheet" href="styles.css?v=1.0">
     </head>
     <body>
         
@@ -14,6 +14,8 @@
 session_start();
 include('fonctions.php');
 include('connex.inc.php');
+
+creation_nav();
 
 function afficheFormulaire($p, $e_connexion){
     echo ("<form class='connexion' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
@@ -112,5 +114,5 @@ else
 
     echo("</div>");
 }
-
+creation_footer();
 ?>

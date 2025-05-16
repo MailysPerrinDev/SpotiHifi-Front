@@ -94,7 +94,6 @@ hr
 nav
 {
     background-color: var(--primaire);
-    color: var(--terciaire);
     
     padding: 10px;
     width: 100%;
@@ -115,6 +114,7 @@ nav #titre
     --p: 50px;
     
     background-color: var(--primaire);
+    color: var(--terciaire);
     
     position: absolute;
     
@@ -134,8 +134,12 @@ nav #titre
     clip-path: polygon(var(--p) 100%, calc(100% - var(--p)) 100%, 100% 0, 0 0);
 }
 
-nav div
+nav a
 {
+    color: var(--terciaire);
+    
+    text-decoration: none;
+
     cursor: pointer;
 }
 
@@ -166,7 +170,7 @@ nav div
 }
 
 /*--Recherche--*/
-#barreRecherche
+#barre_recherche
 {
     margin: 5%;
     margin-bottom: 0;
@@ -178,13 +182,13 @@ nav div
     justify-content: center;
 }
 
-#barreRecherche div, #recherche
+#barre_recherche div, #recherche
 {
     background-color: var(--secondaire);
     padding: 6px;
 }
 
-#barreRecherche img
+#barre_recherche img
 {
     max-width: 30px;
     height: 30px;
@@ -203,7 +207,7 @@ nav div
     border-left-style: hidden;
 }
 
-#btnRecherche
+#btn_recherche
 {
     border: 2px solid var(--primaire);
     border-right-style: hidden;
@@ -212,7 +216,7 @@ nav div
 }
 
 /*---Menu filtre par tag---*/
-#menuFiltre
+#menu_filtre
 {
     margin: 5%;
     margin-top: 0; 
@@ -260,13 +264,13 @@ nav div
 }
 
 /*Interactivté des cartes*/
-.carteMusique:hover, .cartePlaylist:hover
+.carte_musique:hover, .carte_playlist:hover
 {
     border: solid 2px var(--primaire);
 }
 
 /*Musiques*/
-.carteMusique
+.carte_musique
 {
     background-color: var(--terciaire);
     padding: 2px;
@@ -322,13 +326,13 @@ nav div
     overflow: hidden;
 }
 
-.carteMusique .couverture
+.carte_musique .couverture
 {   
     width: 55%;
     height: 230px;
 }
 
-.listeTags
+.liste_tags
 {
     position: absolute;
     bottom: 5px;
@@ -370,7 +374,7 @@ nav div
     cursor: pointer;
 }
 
-.carteMusique .tag:nth-child(3)
+.carte_musique .tag:nth-child(3)
 {
     width: fit-content;
 }
@@ -386,7 +390,7 @@ nav div
     overflow: hidden;
 }
 
-.cartePlaylist
+.carte_playlist
 {
     background-color: var(--terciaire);
     
@@ -403,10 +407,65 @@ nav div
     cursor: pointer;
 }
 
-.cartePlaylist .couverture
+.carte_playlist .couverture
 {   
     margin: 4%;
     height: 95%;
+}
+
+/*--Connexion--*/
+.bloc_connexion
+{
+    background-color: var(--terciaire);
+    color: var(--texte);
+    
+    justify-content : center;
+    text-align: center;
+    
+    margin: 10% 15% 15% 15%;
+    padding: 20px 20px 50px 20px;
+    
+    border-radius: 2em;
+}
+
+.bloc_connexion h1
+{
+    color: var(--primaire);
+}
+
+.bloc_connexion .titre
+{
+    text-align: left;
+    justify-content: left;
+}
+
+.bloc_connexion input
+{
+    background-color: var(--secondaire);
+    color: var(--texte);
+    
+    padding: 3px 5px;
+    margin: 1em;
+    
+    border: none;
+}
+
+input[name="mdp"]
+{
+    -webkit-text-security: disc !important;
+}
+
+button
+{
+    background-color: var(--primaire);
+    color: var(--terciaire);
+    
+    padding: 10px 50px;
+    
+    border-radius: 2em;
+    border: none;
+    
+    font-style: bold;
 }
 
 /*--Mode pc--*/
@@ -438,7 +497,7 @@ nav div
         flex-wrap: wrap;
         justify-content: space-around;
     }
-    .carteMusique, .cartePlaylist
+    .carte_musique, .carte_playlist
     {
         background-color: var(--terciaire);
     
@@ -476,7 +535,7 @@ nav div
         margin: 2%;
     }
     
-    .carteMusique .couverture
+    .carte_musique .couverture
     {
         width: 95%;
     }   

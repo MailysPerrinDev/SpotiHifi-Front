@@ -1,5 +1,25 @@
 <?php
 
+function creation_nav()
+{
+    echo("
+        <nav>
+            <a id='aide' href='aide.php'>Aide</a>
+            <a id='titre' href='index.php'>SpotHifi</a>
+            <a id='connexion' href='connexion.php'>Connexion</a>
+        </nav>
+        ");
+}
+
+function creation_footer()
+{
+    echo("
+        <footer>
+            <div>PERRIN Maïlys <br /> BRUNET-DEFRENNE Claudia</div>
+        </footer>
+        ");
+}
+
 function creation_fichier_image($pdo, $id_photo, $nom_img)
 {
     try
@@ -44,7 +64,7 @@ function afficher_img_profil($img_profil, $id_img, $l, $h, $message)
     }
 
     echo("<figure>");
-    echo("<img class='p_profil' src=$img_profil alt='Photo de profil' $id_img $l $h>");
+    echo("<img id='pdp' src=$img_profil alt='Photo de profil' $id_img $l $h>");
     if (!is_null($message))
     {
         echo("<br><legend $id_img>$message</legend>");
