@@ -38,10 +38,12 @@ function modifier($param, $js)
 		$class = 'modif';
 
 	echo("<form class='$class' id=$param action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
-	if($param == 'mot de passe')
+	if($param == 'mdp')
 	{
-		echo("<label>Ancien $param<br><input type='text' name='a_$param' required='required'></>input</label><br>");
+		echo("<label>Ancien $param<br><input type='text' name='a_$param' required='required'></input></label><br>");
 	}
+	if($param == 'mail')
+		$contrainte = "pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'";
 	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required'></input></label><br>");
 	echo("<button type='submit'>Confirmer</button>");
 	echo("<button type='button'>Annuler</button>");
