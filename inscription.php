@@ -3,15 +3,20 @@
     <head>
         <meta charset="utf-8">
         <title>SpotHifi: Inscription</title>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="styles.css?v=1.0">
     </head>
     <body>
-        <h1>Inscription</h1>
+        
     </body>
 </html>
 
 <?php
 session_start();
+include('fonctions.php');
+
+creation_nav();
+echo ("<div class='bloc_inscription'>");
+echo ("<h1>Inscription</h1><br><hr><br>");
 
 function afficheFormulaire($p, $a, $m, $j, $mail, $e_pseudo, $e_date, $e_mail)
 {
@@ -19,9 +24,9 @@ function afficheFormulaire($p, $a, $m, $j, $mail, $e_pseudo, $e_date, $e_mail)
     echo("<label>Pseudo <input type='text' name='pseudo' value='$p' required='required'></label><br>");
     echo ("<span class='erreur'>$e_pseudo</span><br>"); // si problème de pseudo
     echo("<label>Date de naissance 
-        <input type='text' name='annee' value='$a' maxlength='4' pattern='\d\d\d\d'>/
-        <input type='text' name='mois' value='$m' maxlength='2' pattern='\d\d'>/
-        <input type='text' name='jour' value='$j' maxlength='2' pattern='\d\d'></label><br>");
+        <input type='text' class='date' name='annee' value='$a' maxlength='4' pattern='\d\d\d\d'>/
+        <input type='text' class='date' name='mois' value='$m' maxlength='2' pattern='\d\d'>/
+        <input type='text' class='date' name='jour' value='$j' maxlength='2' pattern='\d\d'></label><br>");
     echo ("<span class='erreur'>$e_date</span><br>"); // si problème de date
     echo("<label>Adresse mail<input type='text' name='mail' value='$mail' required='required' pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'></label><br>");
     echo("<span class='erreur'>$e_mail</span><br>"); // si problème de mail
@@ -127,6 +132,7 @@ else
 
         $pdo= NULL;
     }
+    echo("</div>");
 }
-
+creation_footer();
 ?>

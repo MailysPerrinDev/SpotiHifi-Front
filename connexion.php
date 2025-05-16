@@ -21,14 +21,15 @@ function afficheFormulaire($p, $e_connexion){
     echo ("<form class='connexion' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
     echo ("<label><span class='titre'>Nom utilisateur</span><br><input type='text' name='pseudo' value='".$p."' required='required'></label><br>");
     echo ("<label><span class='titre'>Mot de passe</span><br><input type='password' name='mdp' required='required'></label><br>");
-    echo ("<span class='erreur'>$e_connexion</span><br>"); // si problème
-    echo ("<button type='submit' class='connexion' name='b_connexion'>Connexion</button>");
+    echo ("<span class='erreur'>$e_connexion</span><br>"); // si 
+    echo ("<button type='submit' class='connexion' name='b_connexion'>Connexion</button><br>");
+    echo("<a href='inscription.php'>pas encore inscrit?</a><br>");
     echo("</form>");
 }
 
 
 echo ("<div class='bloc_connexion'>");
-echo ("<h1>Connexion</h1>");
+echo ("<h1>Connexion</h1><br><hr><br>");
 
 if (isset($_SESSION['pseudo'])){
     echo("<p class='titre'>Vous ne pouvez pas vous connecter, vu que vous êtes connecté ;w;<br></p>");

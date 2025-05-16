@@ -48,6 +48,16 @@ footer
     font-weight: bold;
 }
 
+/*--Gestion des liens--*/
+a
+{
+    color: var(--texte);
+    
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
 /*--Gestion de la taille des titres--*/
 h1
 {
@@ -66,7 +76,9 @@ h4
 /*--Barre de séparation--*/
 hr
 {
-    border-bottom: solid 1px var(--primaire);
+    background-color: var(--primaire);
+    height: 1px;
+    border: none;
 }
 
 /*--Barre de défilement--*/
@@ -137,10 +149,6 @@ nav #titre
 nav a
 {
     color: var(--terciaire);
-    
-    text-decoration: none;
-
-    cursor: pointer;
 }
 
 /*--Profile--*/
@@ -413,8 +421,8 @@ nav a
     height: 95%;
 }
 
-/*--Connexion--*/
-.bloc_connexion
+/*--Connexion & Inscription--*/
+.bloc_connexion, .bloc_inscription
 {
     background-color: var(--terciaire);
     color: var(--texte);
@@ -422,50 +430,58 @@ nav a
     justify-content : center;
     text-align: center;
     
-    margin: 10% 15% 15% 15%;
+    margin: 15%;
     padding: 20px 20px 50px 20px;
     
     border-radius: 2em;
-}
 
-.bloc_connexion h1
-{
-    color: var(--primaire);
-}
+    .titre
+    {
+        text-align: left;
+        justify-content: left;
+    }
 
-.bloc_connexion .titre
-{
-    text-align: left;
-    justify-content: left;
-}
+    input
+    {
+        background-color: var(--secondaire);
+        color: var(--texte);
+    
+        padding: 3px 5px;
+        margin: 2%;
+        margin-bottom: 5%;
+    
+        border: none;
+    }
+    
+    .date
+    {  
+        width: 5ch;
+        margin: 1%;
+    }
 
-.bloc_connexion input
-{
-    background-color: var(--secondaire);
-    color: var(--texte);
+    a
+    {
+        font-size: medium;
     
-    padding: 3px 5px;
-    margin: 1em;
-    
-    border: none;
-}
+        &:hover
+        {
+            color: var(--primaire);
+        }
+    }
+    button
+    {
+        background-color: var(--primaire);
+        color: var(--terciaire);
 
-input[name="mdp"]
-{
-    -webkit-text-security: disc !important;
-}
+        padding: 10px 50px;
 
-button
-{
-    background-color: var(--primaire);
-    color: var(--terciaire);
-    
-    padding: 10px 50px;
-    
-    border-radius: 2em;
-    border: none;
-    
-    font-style: bold;
+        border-radius: 2em;
+        border: none;
+
+        font-style: bold;
+
+        cursor: pointer;
+    }
 }
 
 /*--Mode pc--*/
@@ -539,4 +555,19 @@ button
     {
         width: 95%;
     }   
+    
+    /*--Connexion--*/
+    .bloc_connexion, .bloc_inscription
+    {
+        background-color: var(--terciaire);
+        color: var(--texte);
+    
+        justify-content : center;
+        text-align: center;
+        
+        margin: 25%;
+        margin-top: 10%; 
+    
+        border-radius: 2em;
+    }
 }
