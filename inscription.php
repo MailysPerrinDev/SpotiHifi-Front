@@ -14,7 +14,7 @@
 session_start();
 include('fonctions.php');
 
-creation_nav();
+creation_nav(isset($_SESSION['pseudo']));
 echo ("<div class='bloc_inscription'>");
 echo ("<h1>Inscription</h1><br><hr><br>");
 
@@ -132,7 +132,7 @@ else
 
         $pdo= NULL;
     }
-    echo("</div>");
 }
+echo("</div>");
 creation_footer();
 ?>

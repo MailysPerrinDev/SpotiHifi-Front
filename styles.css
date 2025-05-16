@@ -460,16 +460,7 @@ nav a
         width: 5ch;
         margin: 1%;
     }
-
-    a
-    {
-        font-size: medium;
     
-        &:hover
-        {
-            color: var(--primaire);
-        }
-    }
     button
     {
         background-color: var(--primaire);
@@ -483,6 +474,23 @@ nav a
         font-style: bold;
 
         cursor: pointer;
+    }
+    
+    button a 
+    {
+        color: var(--secondaire);
+        text-decoration: none;
+    }
+}
+
+.bloc_connexion a
+{
+    font-size: medium;
+    text-decoration: none;
+    
+    &:hover
+    {
+        color: var(--primaire);
     }
 }
 

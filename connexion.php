@@ -15,7 +15,7 @@ session_start();
 include('fonctions.php');
 include('connex.inc.php');
 
-creation_nav();
+creation_nav(isset($_SESSION['pseudo']));
 
 function afficheFormulaire($p, $e_connexion){
     echo ("<form class='connexion' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
@@ -108,11 +108,10 @@ else
 
         if (isset($_POST['pseudo'])) //si tout c'est bien passé
         {
-            header('index.html');
+            header('index.php');
         }     
     }
-
-    echo("</div>");
 }
+echo("</div>");
 creation_footer();
 ?>

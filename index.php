@@ -9,18 +9,19 @@
             session_start();
             include('fonctions.php');
             include('connex.inc.php');
+            $pdo = connex("spothifi");
         ?>
     </head>
     <body>
         <header>
             <?php
-                creation_nav();
+                creation_nav(isset($_SESSION['pseudo']));
                 if (isset($_SESSION['pseudo'])){
                     echo("<div id='profile'><div id='pdp'>");
                     afficher_img_profil($_SESSION['photo'], NULL, NULL, NULL, NULL);
-                    echo("<h2>Bon retour parmi nous ".$_SESSION['pseudo']."!</h2></div>");
+                    echo("<h2>Bienvenu ".$_SESSION['pseudo']."!</h2></div>");
                 }
-                creation_recherche();
+                creation_recherche($pdo);
             ?>
         </header>
         <h1>Nos Selections</h1>
@@ -57,7 +58,7 @@
                 </div>
                 <div class="carte_musique">
                     <div class="couverture">
-                        <img src="img/Tests/oiseau.jpg">
+                        <img src="img/photoParDefaut.png">
                     </div>
                     <div class="description">
                         <h2>Imagine Zoizo</h2>

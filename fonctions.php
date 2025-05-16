@@ -1,19 +1,25 @@
 <?php
 
-function creation_nav()
+function creation_nav($est_connecter)
 {
     echo("
         <nav>
             <a id='aide' href='aide.php'>Aide</a>
             <a id='titre' href='index.php'>SpotHifi</a>
-            <a id='connexion' href='connexion.php'>Connexion</a>
-        </nav>
         ");
+    if ($est_connecter == 1)
+    {
+        echo("<a id='connexion' href='deconnexion.php'>Déconnexion</a>");
+    }
+    else
+    {
+         echo("<a id='connexion' href='connexion.php'>Connexion</a>");
+    }     
+    echo("</nav>");
 }
 
-function creation_recherche()
+function creation_recherche($pdo)
 {
-    $i = 0;
     echo("
         <div id='barre_recherche'>
             <div id='btn_recherche'>
@@ -23,11 +29,32 @@ function creation_recherche()
         </div>"
         );
     echo("<div id='menu_filtre'>");
-        while ($i<6)
+    
+    try
+    {
+        $stmt = $pdo->prepare("SELECT DISTINCT tag FROM musique");
+        $stmt->execute;
+        $tags = $stmt->fetchALL(PDO::FETCH_COLUMN);
+        
+        if (count($tags)>=6) /*Si on en a plus de 6 alors on en selectionne au hazard*/
         {
-            echo("<button class='tag'><span>Jazz</span></button>");
-            $i ++;
+            $tags_aleat = array_map($tags, 6);
         }
+        else
+        {
+            $tags_aleat = $tags;
+        }
+        foreach ($tags_aleat as $tag)
+        {
+            echo("<button class='tag'><span>".$tag."</span></button>");
+        }
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+    
     echo("</div>");
 }
 
