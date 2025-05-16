@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>SpotHifi: Gestion compte</title>
 	<link rel="stylesheet" href="styles.css">
-	<script language="javascript">
+	<script langage="javascript">
 	  function testJavascript() {
 	    // test pour valider que Javascript fonctionne
 	    if (! document.getElementById)

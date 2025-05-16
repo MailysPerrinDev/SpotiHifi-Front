@@ -1,12 +1,25 @@
 function afficher_form(id)
 {
+    var deja_present = 0;
     var ids= ['pseudo', 'mail', 'mdp'];
+    
+    if (document.getElementById(ids[id]).style.display == "initial")
+    {
+        deja_present = 1;
+    }
     
     for(i = 0; i< ids.length; i += 1)
     {
         document.getElementById(ids[i]).style.display = "none";
     }
+    
+    if(deja_present)
+    {
+        document.getElementById(ids[id]).style.display = "none";
+    }
+    else
+    {
+        document.getElementById(ids[id]).style.display = "initial";
+    }
 
-
-    document.getElementById(ids[id]).style.display = "initial";
 }
