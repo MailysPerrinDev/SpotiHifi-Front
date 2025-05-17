@@ -137,8 +137,66 @@ function afficher_img_profil($img_profil, $id_img, $l, $h, $message)
     echo("</figure>");  
 }
 
-function modifier_utilisateur($pdo, $colonne, $id, $n_val)
+/*---UTILISATEUR---*/
+function afficher_membres($pdo, $val, $colonne, $nb_res, $ordre)
+{ 
+    /*--traitement des variables--*/
+    $tri = "ORDER BY";
+    if($colonne != null)
+        $tri .= " $colonne";
+    else
+        $tri .= " pseudo";
+
+    if( $ordre != null)
+        $tri .= " DESC";
+
+    if($nb_res != null)
+        $nb_res = "LIMIT $nb_res";
+    
+    if($val != null)
+        $val = "WHERE pseudo = '$val'";
+
+    /*--recherche--*/
+    echo("<table>");
+    echo("<caption>Utilisateur</caption>");
+    echo("<tr><th>id</th><th>pseudo</th><th>date de naissance</th><th>mail</th><th>statut</th></tr>");
+    
+    try
+    {
+        $stmt = $pdo->prepare("SELECT id, pseudo, date_naissance, adresse_mail, statut FROM utilisateur $val $tri $nb_res");
+        $stmt->execute();
+        if ($stmt->rowCount() == 0)
+            echo("<tr><td class='erreur' colspan=4>Aucun résultat</td></tr>");
+        else
+        { 
+            $i = 0;
+            $donnees = $stmt->fetchALL();
+            foreach($donnees as $ligne)
+            {
+                echo("<tr>");
+                foreach($ligne as $colonne)
+                {
+                    if($i%2 == 0)
+                        echo("<td>$colonne</td>");
+                    $i++;
+                }
+                echo("</tr><br>");
+            }
+        }
+        $stmt->closeCursor();
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+    echo("</table>");
+    return $donnees;
+}
+
+function modifier_utilisateur($pdo, $colonne, $id, $n_val, $s)
 {
+
     $e = null;
 
     try
@@ -175,7 +233,7 @@ function modifier_utilisateur($pdo, $colonne, $id, $n_val)
 
             if($stmt->rowCount() != 0)
             {
-                if($colonne == "pseudo" || $colonne == "statut")
+                if($s==null && ($colonne == "pseudo" || $colonne == "statut"))
                     $_SESSION[$colonne] = $n_val;
                 $modif = 1;
             }
@@ -192,25 +250,7 @@ function modifier_utilisateur($pdo, $colonne, $id, $n_val)
     return $e;
 }
 
-function recup_donnee_tab($pdo, $donnee, $id_musique, $tab)
-{
-    try
-    {
-        $stmt = $pdo->prepare("SELECT $donnee FROM $tab WHERE id = :id_musique;");
-        $stmt->bindParam(':id_musique', $id_musique);
-        $stmt->execute();
-        $resultat = $stmt->fetchColumn();
-
-        $stmt->closeCursor();
-        return $resultat;
-    }
-    catch(PDOException $e)
-    {
-        echo '<p>Problème PDO</p>';
-        echo $e->getMessage();
-    }
-}
-
+/*---MUSIQUE---*/
 function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
 {
     $photo = "img/photoParDefaut.png";
@@ -328,6 +368,127 @@ function musique_aléatoire($pdo)
             $stmt->closeCursor();
         }
        
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+}
+/*gestion musique*/
+function modifier_musique($pdo, $colonne, $id, $n_val)
+{
+
+    $e = null;
+
+    try
+    {
+        if($colonne = "nb_like")
+        {
+            $stmt = $pdo->prepare("SELECT nb_like WHERE id = :id");
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            $nb_val = $stmt->fetch()[0]+1;
+        }
+        if($colonne = "duree" && $n_val >= '10:00:00')
+        {
+            $e = "duree trop grande";
+        }
+        if($e == null)
+        {
+            $stmt = $pdo->prepare("UPDATE musique SET $colonne = :val WHERE id = :id ;");
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':val', $n_val);
+            $stmt->execute();
+
+            if($stmt->rowCount() == 0)
+            {
+                $e = "Problème mise à jour pas faite";
+            }
+        }
+
+        $stmt->closeCursor();
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+
+    return $e;
+}
+
+
+
+function inserer_musique($pdo, $id_artiste, $nom, $date_creation, $tags, $paroles, $description, $lien_clip)
+{
+
+    $e = null;
+
+    try
+    {
+        if($id_artiste==null || $nom==null || $date_creation==null || $tags==null)
+            $e = "il manque des attributs obligatoires";
+
+        else
+        {
+            $stmt = $pdo->prepare("INSERT INTO musique(id_artiste, nom, duree, date_creation, paroles, tags, description, lien_clip) VALUES (:id, :n, :dc, :p, :t, :dec, :l)");
+            $stmt->bindParam(':id', $id_artiste);
+            $stmt->bindParam(':n', $nom);
+            $stmt->bindParam(':dc', $date_creation);
+            $stmt->bindParam(':p', $paroles);
+            $stmt->bindParam(':t', $tags);
+            $stmt->bindParam(':dec', $description);
+            $stmt->bindParam(':l', $lien_clip);
+            $stmt->execute();
+
+            if($stmt->rowCount() == 0)
+            {
+                $e = "Problème insertion pas faite";
+            }
+        }
+
+        $stmt->closeCursor();
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+
+    return $e;
+}
+
+/*--TABLES GENERALES*/
+function recup_donnee_tab($pdo, $donnee, $id_musique, $tab)
+{
+    try
+    {
+        $stmt = $pdo->prepare("SELECT $donnee FROM $tab WHERE id = :id_musique;");
+        $stmt->bindParam(':id_musique', $id_musique);
+        $stmt->execute();
+        $resultat = $stmt->fetchColumn();
+
+        $stmt->closeCursor();
+        return $resultat;
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+}
+
+function supprimer_donnee($pdo, $table, $id)
+{
+    try
+    {
+        $stmt = $pdo->prepare("DELETE FROM $table WHERE id = :id");
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        echo($stmt->rowCount()." ligne supprimée");
     }
     catch(PDOException $e)
     {
