@@ -121,6 +121,7 @@ function afficher_param_normal()
 function afficher_param_artiste($js)
 {
 	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h1>Statut</h1><hr><br>");
 	echo("<label>Passer en compte lambda : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
 	echo("</div>");
 }
