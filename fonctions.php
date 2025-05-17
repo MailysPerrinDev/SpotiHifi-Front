@@ -254,6 +254,9 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     $tags = recup_donnee_musique($pdo, "tags", $id_musique);
     $description = recup_donnee_musique($pdo, "description", $id_musique);
     
+    if ($description == NULL)
+        $description = "Aucune description";
+    
     echo("<div class='description'>");
     echo("<h2>".htmlspecialchars($nom)."</h2>");
     echo("<p>".htmlspecialchars($description)."</p>");

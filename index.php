@@ -29,48 +29,7 @@
         <div id="recommandations">
             <div id="musiques">
                 <?php generation_carte_musique($pdo, 'Solence', 'Where Were You..?');?>
-                <div class="carte_musique">
-                    <div class="couverture">
-                        <img src="img/Tests/Video.png">
-                    </div>
-                    <div class="description">
-                        <h2>Imagine Doggoes</h2>
-                        <p>Best mix de l'été franchement je recommande grandement mais attention aux mosh parce que prout. mais Solence c'est large mieux hein faites pas gaffe. Mais nan mais nan toutoutouloulou... Mais nan mais nan toutoutouloulou MAIS nan mais nan toutoutouloulou</p>
-                        <div class="liste_tags">
-                            <button class="tag"><span>mignon</span></button>
-                            <button class="tag"><span>rock</span></button>
-                            <button class="tag"><span>...</span></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="carte_musique">
-                    <div class="couverture">
-                        <img src="img/Tests/WhereWereYou.png">
-                    </div>
-                    <div class="description">
-                        <h2>WHERE WERE YOU..?</h2>
-                        <p>Best musique de l'année</p>
-                        <br />
-                        <div class="liste_tags">
-                            <button class="tag"><span>electronique</span></button>
-                            <button class="tag"><span>metal</span></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="carte_musique">
-                    <div class="couverture">
-                        <img src="img/photoParDefaut.png">
-                    </div>
-                    <div class="description">
-                        <h2>Imagine Zoizo</h2>
-                        <p>Best mix de l'hiver</p>
-                        <br />
-                        <div class="liste_tags">
-                            <button class="tag"><span>zoizo</span></button>
-                            <button class="tag"><span>jazz</span></button>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <br>
             <h1>Quelques playlist/albums</h1>
