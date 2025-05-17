@@ -59,7 +59,7 @@ function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
 	/*photo de profil*/
 	echo("<div id='fond_profile'></div>");
 	echo("<div id='profile'>");
-	afficher_img_profil($_SESSION['img_profil'], null, "140", "100", null);
+	afficher_img_profil($_SESSION['photo'], null, "140", "100", null);
 	echo("<button type='button' class='modif' onclick='modifier_photo()'>");
 	echo("<img href=$img_modif alt='modifier'></button>");
 	echo('</div><br>');
@@ -104,7 +104,7 @@ function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
 	echo("<label>Mot de passe");
 	echo("<button type='button' class='modif' onclick='afficher_form(2)'>");
 	echo("<img href=$img_modif alt='modifier'></button></label><br>");
-	modifier('mdp', $js, e_mdp);
+	modifier('mdp', $js, $e_mdp);
 	echo('<br>');
 }
 
