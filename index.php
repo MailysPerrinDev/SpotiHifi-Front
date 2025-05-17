@@ -16,10 +16,12 @@
         <header>
             <?php
                 creation_nav(isset($_SESSION['pseudo']));
-                if (isset($_SESSION['pseudo'])){
-                    echo("<div id='profile'>");
+                if (isset($_SESSION['pseudo']))
+                {
+                    echo("<a id='profile' href='param_utilisateur.php'>");
                     afficher_img_profil($_SESSION['photo'], NULL, NULL, NULL, NULL);
-                    echo("<h2>Bienvenu ".$_SESSION['pseudo']."!</h2></div>");
+                    echo("<img class='logo' src='img/pen-solid.svg'>");
+                    echo("<h2>Bienvenu ".$_SESSION['pseudo']."!</h2></a>");
                 }
                 creation_recherche($pdo, NULL);
             ?>

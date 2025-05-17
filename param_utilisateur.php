@@ -59,10 +59,11 @@ function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
 	$img_modif = 'img/pen-solid.svg';
 	/*photo de profil*/
 	echo("<div id='fond_profile'></div>");
-	echo("<div id='profile'>");
+	echo("<a id='profile'>");
 	afficher_img_profil($_SESSION['photo'], null, "140", "100", null);
+	echo("<img class='logo' src='img/pen-solid.svg'>");
 	echo("<label onclick='modifier_photo()'> Modifier votre photo de profil<img class='modif' src=$img_modif alt='modifier'></label>");
-	echo('</div><br>');
+	echo('</a><br>');
 
 	/*Modification informations*/
 	echo("<div id='modif_infos'>");

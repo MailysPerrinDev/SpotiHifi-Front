@@ -129,7 +129,7 @@ function afficher_img_profil($img_profil, $id_img, $l, $h, $message)
     }
 
     echo("<figure id='pdp'>");
-    echo("<img src=$img_profil alt='Photo de profil' $id_img $l $h>");
+    echo("<img class='image' src=$img_profil alt='Photo de profil' $id_img $l $h>");
     if (!is_null($message))
     {
         echo("<br><legend $id_img>$message</legend>");

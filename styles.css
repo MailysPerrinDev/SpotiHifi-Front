@@ -167,6 +167,37 @@ nav a
     flex-direction: column;
 }
 
+
+#profile .image
+{
+    transition: filter 0.3s ease;
+}
+
+#profile:hover .image
+{
+    filter: blur(3px);
+}
+
+#profile:hover .logo
+{
+    opacity: 1;
+}
+
+#profile .logo
+{    
+    position: absolute;
+    
+    margin-top: 18%;
+    align-content: center;
+    right: 50%;
+    left: 50%;
+    
+    width: 30px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+
 #profile .modif
 {
     margin: auto;
@@ -588,6 +619,12 @@ nav a
         width: 200px;
         margin-top: 10%;
     }
+    #profile .logo
+    {    
+        position: absolute;
+
+        margin-top: 15%;
+    }
     /*Musiques*/
     #musiques, #playlists
     {
@@ -596,6 +633,7 @@ nav a
         flex-wrap: wrap;
         justify-content: space-around;
     }
+    
     .carte_musique, .carte_playlist
     {
         background-color: var(--terciaire);
