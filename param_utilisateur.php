@@ -30,27 +30,30 @@ creation_nav(isset($_SESSION['pseudo']));
 if(!isset($js))
 	$js = 0;
 
-function modifier($param, $js)
+function modifier($param, $js, e)
 {
 	if($js)//si javscript ou pas
 		$class = 'fonction';
 	else
 		$class = 'modif';
-
+	$contrainte = null;
+	$type = "text";
+	
 	echo("<form class='$class' id=$param action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	if($param == 'mdp')
 	{
-		echo("<label>Ancien $param<br><input type='text' name='a_$param' required='required'></input></label><br>");
+		$type = "password
+		echo("<label>Ancien $param<br><input type=$type name='a_$param' required='required'></input></label><br>");
 	}
 	if($param == 'mail')
 		$contrainte = "pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'";
-	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required'></input></label><br>");
+	echo("<label>Nouveau $param<br><input type='$type' name='n_$param' required='required' $contrainte></input></label><br>");
 	echo("<button type='submit'>Confirmer</button>");
 	echo("<button type='button'>Annuler</button>");
 	echo("</form>");
 }
 
-function afficher_param_base($js)
+function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
 {
 	$img_modif = 'kuhik';
 	/*photo de profil*/
@@ -68,7 +71,7 @@ function afficher_param_base($js)
 	echo($_SESSION['pseudo']);
 	echo("<button type='button' class='modif' onclick='afficher_form(0)'>");
 	echo("<img href=$img_modif alt='modifier'></button><br>");
-	modifier('pseudo', $js);
+	modifier('pseudo', $js, $e_pseudo);
 	echo('<br>');
 
 	/*adresse mail*/
@@ -94,14 +97,14 @@ function afficher_param_base($js)
         echo '<p>Problème PDO</p>';
         echo $e->getMessage();
     } 
-    modifier('mail', $js);
+    modifier('mail', $js, $e_mail);
     echo('<br>');
 
 	/*mot de passe*/
 	echo("<label>Mot de passe");
 	echo("<button type='button' class='modif' onclick='afficher_form(2)'>");
 	echo("<img href=$img_modif alt='modifier'></button></label><br>");
-	modifier('mdp', $js);
+	modifier('mdp', $js, e_mdp);
 	echo('<br>');
 }
 
@@ -139,32 +142,56 @@ if(!isset($_SESSION['pseudo']))
 }
 else
 {
-	/*Si paramètres changés*/
+	$e_pseudo = null;
+	$e_mail = null;
+	$e_mdp = null;
+
+	/*--Changement paramètres--*/
+
+	/*modification des données et récupération des erreurs*/
 
 	$pdo = connex("spothifi");
 
+	//changement pseudo
 	if(isset($_POST['n_pseudo']))
-		modifier_utilisateur($pdo, $_SESSION['id'], "pseudo", $_POST['n_pseudo']);
+		$e_pseudo = modifier_utilisateur($pdo,"pseudo", $_SESSION['id'], $_POST['n_pseudo']);
+
+	//changement mail
 	else if(isset($_POST['n_mail']))
-		modifier_utilisateur($pdo, $_SESSION['id'], "adresse_mail", $_POST['n_mail']);
+		$e_mail = modifier_utilisateur($pdo, "adresse_mail", $_SESSION['id'], $_POST['n_mail']);
+
+	//changement mot de passe
 	else if(isset($_POST['n_mdp']))
 	{
+		$a_mdp = password_hash(md5($_POST['a_mdp']), PASSWORD_BCRYPT);
+		$n_mdp = password_hash(md5($_POST['n_mdp']), PASSWORD_BCRYPT);
+
 		//faut vérifier si bon mot de passe
-		modifier_utilisateur($pdo, $_SESSION['id'], "mdp", $_POST['n_mdp']);
+		$stmt = $pdo->prepare("SELECT mdp FROM utilisateur WHERE pseudo = :pseudo");
+        $stmt->bindParam(':pseudo', $pseudo);
+        $stmt->execute();
+
+        $hachage = $stmt->fetch()[0];
+        if ($stmt->rowCount() == 0 || !(password_verify($a_mdp, $hachage)))
+            $e_mdp = "Votre mot de passe n'est pas bon";
+		else
+			$e_mdp = modifier_utilisateur($pdo, "mdp", $_SESSION['id'], $n_mdp);
 	}
+	//changement statut
 	else if(isset($_POST['veux_artiste']))
 	{		
-		modifier_statut_utilisateur($pdo, $_SESSION['id'], 1);
+		modifier_utilisateur($pdo, "statut", $_SESSION['id'], 1);
 		$pdo=null;
 	}
 	else if (isset($_POST['veux_lambda'])) 
 	{
-		modifier_statut_utilisateur($pdo, $_SESSION['id'], 0);
+		modifier_utilisateur($pdo, "statut", $_SESSION['id'], 0);
 	}
 	$pdo=null;
 
-	/*affichage de la page*/
-	afficher_param_base($js);
+	/*--Affichage de la page--*/
+
+	afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp);
 	switch($_SESSION['statut'])
 	{
 		case 0:
