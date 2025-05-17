@@ -28,60 +28,25 @@
         <hr>
         <div id="recommandations">
             <div id="musiques">
-                <?php generation_carte_musique($pdo, 'Solence', 'Where Were You..?');?>
-                
+                <?php
+                   musique_aléatoire($pdo);
+                ?>
             </div>
+        </div>
+<!--
             <br>
             <h1>Quelques playlist/albums</h1>
             <hr>
             <div id="playlists">
-                <div class="carte_playlist">
-                    <div class="couverture"><img src="img/Tests/album.png" alt="couvertureGoodKid"></div>
-                    <h3>Meilleur Playlist Ever</h3>
-                    <h4>Anarisil</h4>
-                </div>
-                <div class="carte_playlist">
-                    <div class="couverture"><img src="img/Tests/AngelsCalling.png" alt="couvertureAngelsCalling"></div>
-                    <h3>Angels Calling</h3>
-                    <h4>Solence</h4>
-                </div>
-                 <div class="carte_playlist">
-                     <div class="couverture"><img src="img/Tests/album.png" alt="couvertureGoodKid"></div>
-                    <h3>Meilleur Playlist Ever</h3>
-                    <h4>Anarisil</h4>
-                </div>
-                <div class="carte_playlist">
-                    <div class="couverture"><img src="img/photoParDefaut.png" alt=""></div>
-                    <h3>Meilleur Playlist Ever</h3>
-                    <h4>Anarisil</h4>
-                </div>
-                <div class="carte_playlist">
-                    <div class="couverture"><img src="img/photoParDefaut.png" alt="couvertureGoodKid"></div>
-                    <h3>Meilleur Playlist Ever</h3>
-                    <h4>Anarisil</h4>
-                </div>
+
                  <div class="carte_playlist">
                     <div class="couverture"><img src="img/Tests/album.png" alt="couvertureGoodKid"></div>
                     <h3>Meilleur Playlist Ever</h3>
                     <h4>Anarisil</h4>
                 </div>
-                <div class="carte_playlist">
-                    <div class="couverture"><img src="img/Tests/album.png" alt="couvertureGoodKid"></div>
-                    <h3>Meilleur Playlist Ever</h3>
-                    <h4>Anarisil</h4>
-                </div>
-                <div class="carte_playlist">
-                    <div class="couverture"><img src="img/Tests/papillon.jpg" alt="couvertureGoodKid"></div>
-                    <h3>Meilleur Playlist Ever</h3>
-                    <h4>Anarisil</h4>
-                </div>
-                 <div class="carte_playlist">
-                    <div class="couverture"><img src="img/Tests/album.png" alt="couvertureGoodKid"></div>
-                    <h3>Meilleur Playlist Ever</h3>
-                    <h4>Anarisil</h4>
-                </div>
+                
             </div>
-        </div>
+-->
         <?php
             creation_footer();
         ?>

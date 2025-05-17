@@ -45,20 +45,22 @@ function creation_recherche($pdo, $valeur)
 
                 foreach ($tags_aleat as $i)
                 {
-                    echo("<button class='tag'><span>".$tags_aleat[$i]."</span></button>");
+                    if ($tags_aleat[$i] != NULL)
+                    {
+                        echo("<button class='tag'><span>".$tags_aleat[$i]."</span></button>");
+                    }
                 }
             }
             else
             {
                 foreach($tags as $tag)
                 {
-                    echo("<button class='tag'><span>".$tag."</span></button>");
+                    if ($tag != NULL)
+                    {
+                        echo("<button class='tag'><span>".$tag."</span></button>");
+                    }
                 }
             }
-        }
-        else
-        {
-            echo("marche pô! t nul...");
         }
     }
     catch(PDOException $e)
@@ -190,11 +192,11 @@ function modifier_utilisateur($pdo, $colonne, $id, $n_val)
     return $e;
 }
 
-function recup_donnee_musique($pdo, $donnee, $id_musique)
+function recup_donnee_tab($pdo, $donnee, $id_musique, $tab)
 {
-     try
+    try
     {
-        $stmt = $pdo->prepare("SELECT $donnee FROM musique WHERE id = :id_musique;");
+        $stmt = $pdo->prepare("SELECT $donnee FROM $tab WHERE id = :id_musique;");
         $stmt->bindParam(':id_musique', $id_musique);
         $stmt->execute();
         $resultat = $stmt->fetchColumn();
@@ -212,7 +214,6 @@ function recup_donnee_musique($pdo, $donnee, $id_musique)
 function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
 {
     $photo = "img/photoParDefaut.png";
-        
     echo("<div class='carte_musique'>");
     
     /*couverture de la musique*/
@@ -236,6 +237,11 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
             
             $stmt2->closeCursor();
         }
+        
+        if ($photo == NULL)
+        {
+            $photo = "img/photoParDefaut.png";
+        }
 
         $stmt->closeCursor();
     }
@@ -250,9 +256,9 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     echo("</div>");
     
     /*Informations*/
-    $nom = recup_donnee_musique($pdo, "nom", $id_musique); 
-    $tags = recup_donnee_musique($pdo, "tags", $id_musique);
-    $description = recup_donnee_musique($pdo, "description", $id_musique);
+    $nom = recup_donnee_tab($pdo, "nom", $id_musique, "musique"); 
+    $tags = recup_donnee_tab($pdo, "tags", $id_musique, "musique");
+    $description = recup_donnee_tab($pdo, "description", $id_musique, "musique");
     
     if ($description == NULL)
         $description = "Aucune description";
@@ -267,14 +273,20 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     {
         foreach ($tags as $tag)
         {
-            echo("<button class='tag'><span>".htmlspecialchars($tag)."</span></button>");
+            if ($tag != NULL)
+            {
+                echo("<button class='tag'><span>".htmlspecialchars($tag)."</span></button>");
+            }
         }
     }
     else
     {
         for ($i=0; $i<count($tags); $i++)
         {
-             echo("<button class='tag'><span>".htmlspecialchars($tags[$i])."</span></button>");
+            if ($tag[$i]!= NULL)
+            {
+                echo("<button class='tag'><span>".htmlspecialchars($tags[$i])."</span></button>");
+            }
         }
         echo("<button class='tag'><span>...</span></button>");
     }
@@ -282,5 +294,46 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     echo("</div>");
 }
 
+function musique_aléatoire($pdo)
+{
+    try
+    {
+        $stmt = $pdo->prepare("SELECT id FROM musique;");
+        $stmt->execute();
+        $id_musiques = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        
+        if ($stmt->rowcount() != 0)
+        {
+            if (count($id_musiques) >= 9) /*Si on en a plus de 6 alors on en selectionne au hazard*/
+            {
+                $musiques_aleat = array_rand($id_musiques, 9);
+                foreach ($id_musiques_aleat as $i)
+                {
+                    $nom_musique = recup_donnee_tab($pdo, "nom", $id_musiques_aleat[$i], "musique");
+                    $id_artiste = recup_donnee_tab($pdo, "id_artiste", $id_musiques_aleat[$i], "musique");
+                    $nom_artiste = recup_donnee_tab($pdo, "pseudo", $id_artiste, "utilisateur");
+                    generation_carte_musique($pdo, $nom_artiste, $nom_musique);
+                }
+            }
+            else
+            {
+                foreach($id_musiques as $id_musique)
+                {
+                    $nom_musique = recup_donnee_tab($pdo, "nom", $id_musique, "musique");
+                    $id_artiste = recup_donnee_tab($pdo, "id_artiste", $id_musique, "musique");
+                    $nom_artiste = recup_donnee_tab($pdo, "pseudo", $id_artiste, "utilisateur");
+                    generation_carte_musique($pdo, $nom_artiste, $nom_musique);
+                }
+            }
+            $stmt->closeCursor();
+        }
+       
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+}
 ?>
 
