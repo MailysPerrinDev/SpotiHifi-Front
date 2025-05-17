@@ -20,5 +20,17 @@ $recherche = $_POST['recherche'];
 
 creation_nav(isset($_SESSION['pseudo']));
 creation_recherche($pdo, $recherche);
+echo("<h1>Résultat");
+if (isset($recherche) && !($resultat == ''))
+{
+    echo(" pour : ".$recherche);
+}
+echo("...</h1><hr>");
+
+if ($recherche == '' || !isset($recherche))
+{
+    echo("<p>Aucun résultat.</p>");
+}
+
 creation_footer();
 ?>
