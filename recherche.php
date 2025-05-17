@@ -21,7 +21,7 @@ $recherche = $_POST['recherche'];
 creation_nav(isset($_SESSION['pseudo']));
 creation_recherche($pdo, $recherche);
 echo("<h1>Résultat");
-if (isset($recherche) && !($resultat == ''))
+if (isset($recherche) && !($recherche == ''))
 {
     echo(" pour : ".$recherche);
 }
