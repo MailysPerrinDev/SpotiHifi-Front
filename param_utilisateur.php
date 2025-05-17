@@ -30,33 +30,37 @@ creation_nav(isset($_SESSION['pseudo']));
 if(!isset($js))
 	$js = 0;
 
-function modifier($param, $js)
+function modifier($param, $js, $e)
 {
 	if($js)//si javscript ou pas
 		$class = 'fonction';
 	else
 		$class = 'modif';
+	
+	$contrainte = null;
+	$type = "text";
 
 	echo("<form class='$class' id=$param action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	if($param == 'mdp')
 	{
+		$type = "password";
 		echo("<label>Ancien $param<br><input type='text' name='a_$param' required='required'></input></label><br>");
 	}
 	if($param == 'mail')
 		$contrainte = "pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'";
 	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required'></input></label><br>");
 	echo("<div class='confirmation'><button type='submit'>Confirmer</button>");
-	echo("<button type='button'>Annuler</button></div>");
+	echo("<button type='button' onclick='afficher_form('$param')'>Annuler</button></div>");
 	echo("</form>");
 }
 
-function afficher_param_base($js)
+function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
 {
 	$img_modif = 'img/pen-solid.svg';
 	/*photo de profil*/
 	echo("<div id='fond_profile'></div>");
 	echo("<div id='profile'>");
-	afficher_img_profil($_SESSION['img_profil'], null, "140", "100", null);
+	afficher_img_profil($_SESSION['photo'], null, "140", "100", null);
 	echo("<label onclick='modifier_photo()'> Modifier votre photo de profil<img class='modif' src=$img_modif alt='modifier'></label>");
 	echo('</div><br>');
 
@@ -69,7 +73,7 @@ function afficher_param_base($js)
 	echo("<label onclick='afficher_form(0)'>Pseudo");
 	echo("<img src=$img_modif alt='modifier'></label><br>");
 	echo($_SESSION['pseudo']);
-	modifier('pseudo', $js);
+	modifier('pseudo', $js, $e_pseudo);
 	echo('</div><br>');
 
 	/*adresse mail*/
@@ -95,14 +99,14 @@ function afficher_param_base($js)
         echo '<p>Problème PDO</p>';
         echo $e->getMessage();
     } 
-    modifier('mail', $js);
+    modifier('mail', $js, $e_mail);
     echo('</div><br>');
 
 	/*mot de passe*/
 	echo("<div class='modif'>");
 	echo("<label onclick='afficher_form(2)'>Mot de passe");
 	echo("<img src=$img_modif alt='modifier'></label><br>");
-	modifier('mdp', $js);
+	modifier('mdp', $js, $e_mdp);
 	echo('</div><br>');
 }
 
@@ -141,32 +145,56 @@ if(!isset($_SESSION['pseudo']))
 }
 else
 {
-	/*Si paramètres changés*/
+	$e_pseudo = null;
+	$e_mail = null;
+	$e_mdp = null;
+	
+	/*--Changement paramètres--*/
+
+	/*modification des données et récupération des erreurs*/
 
 	$pdo = connex("spothifi");
 
+	//changement pseudo
 	if(isset($_POST['n_pseudo']))
-		modifier_utilisateur($pdo, $_SESSION['id'], "pseudo", $_POST['n_pseudo']);
+		$e_pseudo = modifier_utilisateur($pdo,"pseudo", $_SESSION['id'], $_POST['n_pseudo']);
+	
+	//changement mail
 	else if(isset($_POST['n_mail']))
-		modifier_utilisateur($pdo, $_SESSION['id'], "adresse_mail", $_POST['n_mail']);
+		$e_mail = modifier_utilisateur($pdo, "adresse_mail", $_SESSION['id'], $_POST['n_mail']);
+	
+	//changement mot de passe
 	else if(isset($_POST['n_mdp']))
 	{
+		$a_mdp = password_hash(md5($_POST['a_mdp']), PASSWORD_BCRYPT);
+		$n_mdp = password_hash(md5($_POST['n_mdp']), PASSWORD_BCRYPT);
+
 		//faut vérifier si bon mot de passe
-		modifier_utilisateur($pdo, $_SESSION['id'], "mdp", $_POST['n_mdp']);
+		$stmt = $pdo->prepare("SELECT mdp FROM utilisateur WHERE pseudo = :pseudo");
+        $stmt->bindParam(':pseudo', $pseudo);
+        $stmt->execute();
+
+        $hachage = $stmt->fetch()[0];
+        if ($stmt->rowCount() == 0 || !(password_verify($a_mdp, $hachage)))
+            $e_mdp = "Votre mot de passe n'est pas bon";
+		else
+			$e_mdp = modifier_utilisateur($pdo, "mdp", $_SESSION['id'], $n_mdp);
 	}
+	
+	//changement statut
 	else if(isset($_POST['veux_artiste']))
 	{		
-		modifier_statut_utilisateur($pdo, $_SESSION['id'], 1);
+		modifier_utilisateur($pdo, "statut", $_SESSION['id'], 1);
 		$pdo=null;
 	}
 	else if (isset($_POST['veux_lambda'])) 
 	{
-		modifier_statut_utilisateur($pdo, $_SESSION['id'], 0);
+		modifier_utilisateur($pdo, "statut", $_SESSION['id'], 0);
 	}
 	$pdo=null;
 
 	/*affichage de la page*/
-	afficher_param_base($js);
+	afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp);
 	switch($_SESSION['statut'])
 	{
 		case 0:
