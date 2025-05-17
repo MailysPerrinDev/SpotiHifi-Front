@@ -127,9 +127,48 @@ function afficher_param_artiste($js)
 	echo("</div>");
 }
 
-function afficher_param_admin($js)
+function afficher_param_admin()
 {
-	/*à venir*/
+	$pdo = connex("spothifi");
+
+	/*--Affichage formulaire--*/ 
+	echo("<h1>Gestion des membres</h1><hr><br>");
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Recherche</h2>");
+	echo("<label>Pseudo<input type='text' name='val'></label>");
+	echo("<label>Colonne filtre<input type='text' name='colonne'></label>");
+	echo("<label>Voulez-vous que ce soit par ordre décroissant ?<br>(si oui écrivez oui)<input type='text' name='croissant' pattern='oui'></label>");
+	echo("<label>Nombre de résultats<input type='text' name='nb_res'></label>");
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
+
+	if(isset($_POST['val']))
+	{
+		afficher_membres($pdo, $_POST['val'], $_POST['colonne'], $_POST['nb_res'], $_POST['croissant']);
+	}
+	/*--modification--*/
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Modification</h2>");
+	echo("<label>id<input type='text' name='id' required='required'></label>");
+	echo("<label>Colonne<input type='text' name='colonne' required='required'></label>");
+	echo("<label>Valeur<input type='text' name='n_val' required='required'></label>");
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
+
+	if(isset($_POST['id']) && isset($_POST['n_val']))		
+		modifier_utilisateur($pdo, $_POST['colonne'], $_POST['id'], $_POST['n_val']);
+
+	/*--Suppression--*/
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Suppression</h2>");
+	echo("<label>id<input type='text' name='s_id' required='required'></label>");
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
+
+	if(isset($_POST['s_id']))
+		supprimer_donnee($pdo, 'utilisateur', $_POST['s_id']);
+
+	$pdo = null;
 }
 
 
@@ -206,7 +245,7 @@ else
 			afficher_param_artiste($js);  
 			break;
 		case 2:
-			afficher_param_admin($js);
+			afficher_param_admin();
 			break;
 	}
 }
