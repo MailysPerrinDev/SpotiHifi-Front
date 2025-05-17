@@ -49,7 +49,7 @@ function modifier($param, $js, $e)
 		$contrainte = "pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'";
 	echo("<label>Nouveau $param<br><input type='$type' name='n_$param' required='required' $contrainte></input></label><br>");
 	echo("<button type='submit'>Confirmer</button>");
-	echo("<button type='button'>Annuler</button>");
+	echo("<button type='button' onclick='afficher_form('$param')'>Annuler</button>");
 	echo("</form>");
 }
 
