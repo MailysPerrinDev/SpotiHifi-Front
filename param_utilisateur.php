@@ -30,7 +30,7 @@ creation_nav(isset($_SESSION['pseudo']));
 if(!isset($js))
 	$js = 0;
 
-function modifier($param, $js, e)
+function modifier($param, $js, $e)
 {
 	if($js)//si javscript ou pas
 		$class = 'fonction';
@@ -42,7 +42,7 @@ function modifier($param, $js, e)
 	echo("<form class='$class' id=$param action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	if($param == 'mdp')
 	{
-		$type = "password
+		$type = "password";
 		echo("<label>Ancien $param<br><input type=$type name='a_$param' required='required'></input></label><br>");
 	}
 	if($param == 'mail')
