@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>SpotHifi: Gestion compte</title>
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="styles.css?v=1.0">
 	<script langage="javascript">
 	  function testJavascript() {
 	    // test pour valider que Javascript fonctionne
@@ -45,36 +45,37 @@ function modifier($param, $js)
 	if($param == 'mail')
 		$contrainte = "pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'";
 	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required'></input></label><br>");
-	echo("<button type='submit'>Confirmer</button>");
-	echo("<button type='button'>Annuler</button>");
+	echo("<div class='confirmation'><button type='submit'>Confirmer</button>");
+	echo("<button type='button'>Annuler</button></div>");
 	echo("</form>");
 }
 
 function afficher_param_base($js)
 {
-	$img_modif = 'kuhik';
+	$img_modif = 'img/pen-solid.svg';
 	/*photo de profil*/
 	echo("<div id='fond_profile'></div>");
 	echo("<div id='profile'>");
 	afficher_img_profil($_SESSION['img_profil'], null, "140", "100", null);
-	echo("<button type='button' class='modif' onclick='modifier_photo()'>");
-	echo("<img href=$img_modif alt='modifier'></button>");
+	echo("<label onclick='modifier_photo()'> Modifier votre photo de profil<img class='modif' src=$img_modif alt='modifier'></label>");
 	echo('</div><br>');
 
 	/*Modification informations*/
 	echo("<div id='modif_infos'>");
+	echo("<h1>Informations du compte</h1><hr><br>");
 	
 	/*pseudo*/
+	echo("<div class='modif'>");
+	echo("<label onclick='afficher_form(0)'>Pseudo");
+	echo("<img src=$img_modif alt='modifier'></label><br>");
 	echo($_SESSION['pseudo']);
-	echo("<button type='button' class='modif' onclick='afficher_form(0)'>");
-	echo("<img href=$img_modif alt='modifier'></button><br>");
 	modifier('pseudo', $js);
-	echo('<br>');
+	echo('</div><br>');
 
 	/*adresse mail*/
-	echo("<label>Adresse mail");
-	echo("<button type='button' class='modif' onclick='afficher_form(1)'>");
-	echo("<img href=$img_modif alt='modifier'></button></label>");
+	echo("<div class='modif'>");
+	echo("<label onclick='afficher_form(1)'>Adresse mail");
+	echo("<img src=$img_modif alt='modifier'></label>");
 	
 	//recup du mail
 	$pdo = connex("spothifi");
@@ -95,26 +96,27 @@ function afficher_param_base($js)
         echo $e->getMessage();
     } 
     modifier('mail', $js);
-    echo('<br>');
+    echo('</div><br>');
 
 	/*mot de passe*/
-	echo("<label>Mot de passe");
-	echo("<button type='button' class='modif' onclick='afficher_form(2)'>");
-	echo("<img href=$img_modif alt='modifier'></button></label><br>");
+	echo("<div class='modif'>");
+	echo("<label onclick='afficher_form(2)'>Mot de passe");
+	echo("<img src=$img_modif alt='modifier'></label><br>");
 	modifier('mdp', $js);
-	echo('<br>');
+	echo('</div><br>');
 }
 
 function afficher_param_normal()
 {
-	echo("<form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h1>Statut</h1><hr><br>");
 	echo("<label>Passer en compte artiste : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_artiste' value='oui'></label>");
 	echo("</div>"); /*div modif_info (fond noir)*/
 }
 
 function afficher_param_artiste($js)
 {
-	echo("<form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	echo("<label>Passer en compte lambda : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
 	echo("</div>");
 }

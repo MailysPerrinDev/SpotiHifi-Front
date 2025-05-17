@@ -3,7 +3,7 @@ function afficher_form(id)
     var deja_present = 0;
     var ids= ['pseudo', 'mail', 'mdp'];
     
-    if (document.getElementById(ids[id]).style.display == "initial")
+    if (document.getElementById(ids[id]).style.display != "none")
     {
         deja_present = 1;
     }
@@ -19,7 +19,7 @@ function afficher_form(id)
     }
     else
     {
-        document.getElementById(ids[id]).style.display = "initial";
+        document.getElementById(ids[id]).style.display = "flex";
     }
 
 }

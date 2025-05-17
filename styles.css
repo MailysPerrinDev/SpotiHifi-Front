@@ -167,7 +167,7 @@ nav a
     flex-direction: column;
 }
 
-#profile button
+#profile .modif
 {
     margin: auto;
 }
@@ -530,12 +530,52 @@ nav a
     padding: 2%;
     padding-bottom: 13%;
     
-    button.modif
+    .modif
     {
-        margin: 2%;
+        background-color: var(--secondaire);
+        padding: 2%;
+        padding-top: 0;
     }
+    
+    label
+    {        
+        padding-top: 2%;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        
+    }
+    
 }
 
+/*Parties essentielles au fonctionnement mais doivent être invisibles*/
+.fonction
+{
+    background-color: var(--terciaire);
+    
+    margin-top: 2%;
+    padding: 2%;
+    
+    display: none;
+    justify-content: left;
+    flex-direction: column;
+    
+    .confirmation
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        
+        button 
+        {
+            background-color: var(--primaire);
+            border: 1px solid var(--terciaire);
+            border-radius: 30px;
+            
+            width: 30%;
+        }
+    }    
+}
 
 
 /*--Mode pc--*/
@@ -613,10 +653,4 @@ nav a
     
         border-radius: 2em;
     }
-}
-
-/*Parties essentielles au fonctionnement mais doivent être invisibles*/
-.fonction
-{
-    display: none;
 }
