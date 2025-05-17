@@ -80,11 +80,11 @@ else
                     {
                         $id_photo = $stmt2->fetch()[0];
                         creation_fichier_image($pdo, $id_photo, $img_tmp);
-                        $_SESSION['img_profil'] = $img_tmp;                        
+                        $_SESSION['photo'] = $img_tmp;                        
                     }
                     else
                     {
-                        $_SESSION['img_profil'] = $img_defaut;
+                        $_SESSION['photo'] = $img_defaut;
                     }
                     
                     $stmt2->closeCursor();
@@ -105,8 +105,11 @@ else
             echo $e->getMessage();
         }  
 
-        header("Location: index.php");
-        exit();
+        if(isset($_SESSION['id'])) // si connecter
+        {
+            header("Location: index.php");
+            exit();
+        }
     }
 }
 echo("</div>");
