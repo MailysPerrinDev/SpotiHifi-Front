@@ -28,6 +28,7 @@
         <hr>
         <div id="recommandations">
             <div id="musiques">
+                <?php generation_carte_musique($pdo, 'Solence', 'Where Were You..?');?>
                 <div class="carte_musique">
                     <div class="couverture">
                         <img src="img/Tests/Video.png">

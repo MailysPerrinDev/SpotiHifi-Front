@@ -190,5 +190,94 @@ function modifier_utilisateur($pdo, $colonne, $id, $n_val)
     return $e;
 }
 
+function recup_donnee_musique($pdo, $donnee, $id_musique)
+{
+     try
+    {
+        $stmt = $pdo->prepare("SELECT $donnee FROM musique WHERE id = :id_musique;");
+        $stmt->bindParam(':id_musique', $id_musique);
+        $stmt->execute();
+        $resultat = $stmt->fetchColumn();
+
+        $stmt->closeCursor();
+        return $resultat;
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+}
+
+function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
+{
+    $photo = "img/photoParDefaut.png";
+        
+    echo("<div class='carte_musique'>");
+    
+    /*couverture de la musique*/
+    
+    /*On recupere la photo*/
+    try
+    {
+        $stmt = $pdo->prepare("SELECT id FROM musique WHERE nom = :nom_musique 
+                                AND id_artiste = (SELECT id FROM utilisateur WHERE pseudo = :nom_artiste);");
+        $stmt->bindParam(':nom_musique', $nom_musique);
+        $stmt->bindParam(':nom_artiste', $nom_artiste);
+        $stmt->execute();
+        $id_musique = $stmt->fetchColumn();
+        
+        if ($stmt->rowCount() != 0) //Si la photo existe
+        {
+            $stmt2 = $pdo->prepare("SELECT photo FROM photo_musique WHERE id_musique = :id_musique;");
+            $stmt2->bindParam(':id_musique', $id_musique);
+            $stmt2->execute();
+            $photo = $stmt2->fetchColumn();
+            
+            $stmt2->closeCursor();
+        }
+
+        $stmt->closeCursor();
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+    
+    echo("<div class='couverture'>");
+    echo("<img src=".$photo.">");
+    echo("</div>");
+    
+    /*Informations*/
+    $nom = recup_donnee_musique($pdo, "nom", $id_musique); 
+    $tags = recup_donnee_musique($pdo, "tags", $id_musique);
+    $description = recup_donnee_musique($pdo, "description", $id_musique);
+    
+    echo("<div class='description'>");
+    echo("<h2>".htmlspecialchars($nom)."</h2>");
+    echo("<p>".htmlspecialchars($description)."</p>");
+    echo("<div class='liste_tags'>");
+    
+    $tags = explode(',', $tags);
+    if (count($tags) <= 3)
+    {
+        foreach ($tags as $tag)
+        {
+            echo("<button class='tag'><span>".htmlspecialchars($tag)."</span></button>");
+        }
+    }
+    else
+    {
+        for ($i=0; $i<count($tags); $i++)
+        {
+             echo("<button class='tag'><span>".htmlspecialchars($tags[$i])."</span></button>");
+        }
+        echo("<button class='tag'><span>...</span></button>");
+    }
+    echo("</div></div>");
+    echo("</div>");
+}
+
 ?>
 
