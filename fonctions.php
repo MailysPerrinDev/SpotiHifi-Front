@@ -135,29 +135,49 @@ function afficher_img_profil($img_profil, $id_img, $l, $h, $message)
     echo("</figure>");  
 }
 
-function modifier_statut_utilisateur($pdo, $id_utilisateur, $statut)
+function modifier_utilisateur($pdo, $colonne, $id, $n_val)
 {
+
+    $e = null;
+
     try
     {
-        if($statut == 0)//si veux devenir utilisateur lambda
+        if($colonne == "statut" && $n_val == 0) //si veux devenir utilisateur lambda on supprime les musiques associées
         {
             $stmt = $pdo->prepare("DELETE FROM ajouter WHERE id_musique IN (
                 SELECT id FROM musique WHERE id_artiste = :id);
                 DELETE FROM musique WHERE id_artiste = :id;"
                 );
-            $stmt->bindParam(':id', $id_utilisateur);
+            $stmt->bindParam(':id', $id);
             $stmt->execute();
         }
 
-
-        $stmt = $pdo->prepare("UPDATE utilisateur SET statut = :statut WHERE id = :id");
-        $stmt->bindParam(':id', $id_utilisateur);
-        $stmt->bindParam(':statut', $statut);
-        $stmt->execute();
-
-        if($stmt->rowCount() != 0)
+        if($colonne == "pseudo" || $colonne == "adresse_mail") 
+        // on vérifie que ça n'existe pas déjà
         {
-            $_SESSION['statut'] = $statut;
+            $stmt = $pdo->prepare("SELECT id FROM utilisateur WHERE $colonne=:val");
+            $stmt->bindParam(':val', $n_val);
+            $stmt->execute();
+            
+            if($stmt->rowCount() != 0)
+            {
+                $e= $colonne." est déjà utilisé";
+            } 
+        }
+
+        if($e == null)
+        {
+            $stmt = $pdo->prepare("UPDATE utilisateur SET $colonne = :val WHERE id = :id ;");
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':val', $n_val);
+            $stmt->execute();
+
+            if($stmt->rowCount() != 0)
+            {
+                if($colonne == "pseudo" || $colonne == "statut")
+                    $_SESSION[$colonne] = $n_val;
+                $modif = 1;
+            }
         }
 
         $stmt->closeCursor();
@@ -167,6 +187,8 @@ function modifier_statut_utilisateur($pdo, $id_utilisateur, $statut)
         echo '<p>Problème PDO</p>';
         echo $e->getMessage();
     }
+
+    return $e;
 }
 
 ?>
