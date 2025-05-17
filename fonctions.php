@@ -18,16 +18,16 @@ function creation_nav($est_connecter)
     echo("</nav>");
 }
 
-function creation_recherche($pdo)
+function creation_recherche($pdo, $valeur)
 {
     echo("
-        <div id='barre_recherche'>
+        <form method='POST' action='recherche.php' id='barre_recherche'>
             <div id='btn_recherche'>
                 <img src='img/logoRecherche.svg' alt='valider'>
             </div>
-            <input id='recherche' type='text' placeholder='Recherche...''>
-        </div>"
-        );
+            <input id='recherche' name='recherche' type='text' placeholder='Recherche...' value=$valeur>
+        </form>
+        ");
     echo("<div id='menu_filtre'>");
     
     try

@@ -11,6 +11,14 @@
 </html>
 
 <?php
-creation_nav();
+session_start();
+include('fonctions.php');
+include('connex.inc.php');
+
+$pdo = connex("spothifi");
+$recherche = $_POST['recherche'];
+
+creation_nav(isset($_SESSION['pseudo']));
+creation_recherche($pdo, $recherche);
 creation_footer();
 ?>
