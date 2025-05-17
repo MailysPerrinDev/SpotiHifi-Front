@@ -105,11 +105,8 @@ else
             echo $e->getMessage();
         }  
 
-
-        if (isset($_POST['pseudo'])) //si tout c'est bien passé
-        {
-            header('index.php');
-        }     
+        header("Location: index.php");
+        exit();
     }
 }
 echo("</div>");
