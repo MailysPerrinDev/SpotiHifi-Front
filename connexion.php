@@ -105,7 +105,7 @@ else
             echo $e->getMessage();
         }  
 
-        if(isset($_SESSION['photo'])) // si connecter
+        if(isset($_SESSION['id'])) // si connecter
         {
             header("Location: index.php");
             exit();
