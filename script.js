@@ -1,7 +1,7 @@
 function afficher_form(id)
 {
     var deja_present = 0;
-    var ids= ['pseudo', 'mail', 'mdp'];
+    var ids= ['pseudo', 'mail', 'mdp', 'photo_modif'];
     
     if (document.getElementById(ids[id]).style.display != "none")
     {

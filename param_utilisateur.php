@@ -54,6 +54,18 @@ function modifier($param, $js, $e)
 	echo("</form>");
 }
 
+function modifier_pdp($js)
+{
+	if($js)//si javscript ou pas
+		$class = 'fonction';
+	else
+		$class = 'modif';
+	
+	echo("<form class='$class' id='photo_modif' name='photo_modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post' enctype='multipart/form-data'>");
+	echo("<label>Modification photo de profil : <br><input name='photo_modif' type='file' accept='image'><button type='submit'>Enregistrer</button></label>");
+	echo("</form>");
+}
+
 function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
 {
 	$img_modif = 'img/pen-solid.svg';
@@ -62,7 +74,8 @@ function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
 	echo("<a id='profile'>");
 	afficher_img_profil($_SESSION['photo'], null, "140", "100", null);
 	echo("<img class='logo' src='img/pen-solid.svg'>");
-	echo("<label onclick='modifier_photo()'> Modifier votre photo de profil<img class='modif' src=$img_modif alt='modifier'></label>");
+	echo("<label onclick='afficher_form(3)'> Modifier votre photo de profil <img class='modif' src=$img_modif alt='modifier'></label>");
+	modifier_pdp($js);
 	echo('</a><br>');
 
 	/*Modification informations*/
@@ -229,6 +242,87 @@ else
 			$e_mdp = modifier_utilisateur($pdo, "mdp", $_SESSION['id'], $n_mdp, null);
 	}
 	
+	//changement photo de profil
+	else if (isset($_FILES['photo_modif']))
+	{
+		/*recup_donnee_table_id($pdo, "nom", "musique", $id_musique);*/
+		$image = file_get_contents($_FILES['photo_modif']["tmp_name"]);
+		/*Ajoute image a la base de donnees*/
+		try
+    	{
+            $stmt = $pdo->prepare("INSERT INTO photos (photo) VALUES (:image)");
+            $stmt->bindParam(':image', $image);
+            $stmt->execute();
+			$id_photo = $pdo->lastInsertId();
+        
+        	$stmt->closeCursor();
+    	}
+		catch(PDOException $e)
+		{
+			echo '<p>Problème PDO</p>';
+			echo $e->getMessage();
+		}
+		
+		/*On verifie si l'utilisateur a deja une photo*/
+		try
+    	{
+            $stmt = $pdo->prepare("SELECT id_utilisateur from photo_utilisateur WHERE id_utilisateur = :id_utilisateur");
+            $stmt->bindParam(':id_utilisateur', $_SESSION['id']);
+            $stmt->execute();
+			$id_utilisateur = $stmt->fetch();
+			
+        
+        	$stmt->closeCursor();
+    	}
+		catch(PDOException $e)
+		{
+			echo '<p>Problème PDO</p>';
+			echo $e->getMessage();
+		}
+		
+		
+		if ($id_utilisateur)
+		{
+			/*ajout du lien de la photo avec l'utilisateur*/
+			try
+			{
+				$stmt = $pdo->prepare("UPDATE photo_utilisateur SET id_photo = :id_photo WHERE id_utilisateur = :id_utilisateur");
+				$stmt->bindParam(':id_utilisateur', $_SESSION['id']);
+				$stmt->bindParam(':id_photo', $id_photo);
+
+				$stmt->execute();
+
+				$stmt->closeCursor();
+			}
+			catch(PDOException $e)
+			{
+				echo '<p>Problème PDO</p>';
+				echo $e->getMessage();
+			}
+		}
+		else
+		{ 
+			/*ajout du lien de la photo avec l'utilisateur*/
+			try
+			{
+				$stmt = $pdo->prepare("INSERT INTO photo_utilisateur(id_utilisateur, id_photo) VALUES (:id_utilisateur, :id_photo)");
+				$stmt->bindParam(':id_utilisateur', $_SESSION['id']);
+				$stmt->bindParam(':id_photo', $id_photo);
+
+				$stmt->execute();
+
+				$stmt->closeCursor();
+			}
+			catch(PDOException $e)
+			{
+				echo '<p>Problème PDO</p>';
+				echo $e->getMessage();
+			}
+		}
+		creation_fichier_image($pdo, $id_photo, $_SESSION['pseudo'].".png");
+
+	}
+	
 	//changement statut
 	else if(isset($_POST['veux_artiste']))
 	{		
@@ -241,6 +335,7 @@ else
 	}
 	$pdo=null;
 
+	
 	/*affichage de la page*/
 	afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp);
 	switch($_SESSION['statut'])
