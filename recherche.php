@@ -26,10 +26,13 @@ if (isset($recherche) && !($recherche == ''))
     echo(" pour : ".$recherche);
 }
 echo("...</h1><hr>");
-
 if ($recherche == '' || !isset($recherche))
 {
     echo("<p>Aucun résultat.</p>");
+}
+else
+{
+    recherche($pdo, $recherche);
 }
 
 creation_footer();

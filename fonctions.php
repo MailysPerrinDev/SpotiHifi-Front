@@ -257,7 +257,6 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     echo("<div class='carte_musique'>");
     
     /*couverture de la musique*/
-    
     /*On recupere la photo*/
     try
     {
@@ -296,9 +295,9 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     echo("</div>");
     
     /*Informations*/
-    $nom = recup_donnee_tab($pdo, "nom", $id_musique, "musique"); 
-    $tags = recup_donnee_tab($pdo, "tags", $id_musique, "musique");
-    $description = recup_donnee_tab($pdo, "description", $id_musique, "musique");
+    $nom = recup_donnee_table_id($pdo, "nom", "musique", $id_musique); 
+    $tags = recup_donnee_table_id($pdo, "tags", "musique", $id_musique);
+    $description = recup_donnee_table_id($pdo, "description", "musique", $id_musique);
     
     if ($description == NULL)
         $description = "Aucune description";
@@ -349,9 +348,9 @@ function musique_aléatoire($pdo)
                 $musiques_aleat = array_rand($id_musiques, 9);
                 foreach ($id_musiques_aleat as $i)
                 {
-                    $nom_musique = recup_donnee_tab($pdo, "nom", $id_musiques_aleat[$i], "musique");
-                    $id_artiste = recup_donnee_tab($pdo, "id_artiste", $id_musiques_aleat[$i], "musique");
-                    $nom_artiste = recup_donnee_tab($pdo, "pseudo", $id_artiste, "utilisateur");
+                    $nom_musique = recup_donnee_table_id($pdo, "nom", "musique", $id_musiques_aleat[$i]);
+                    $id_artiste = recup_donnee_table_id($pdo, "id_artiste", "musique", $id_musiques_aleat[$i]);
+                    $nom_artiste = recup_donnee_table_id($pdo, "pseudo", "utilisateur", $id_artiste);
                     generation_carte_musique($pdo, $nom_artiste, $nom_musique);
                 }
             }
@@ -359,9 +358,10 @@ function musique_aléatoire($pdo)
             {
                 foreach($id_musiques as $id_musique)
                 {
-                    $nom_musique = recup_donnee_tab($pdo, "nom", $id_musique, "musique");
-                    $id_artiste = recup_donnee_tab($pdo, "id_artiste", $id_musique, "musique");
-                    $nom_artiste = recup_donnee_tab($pdo, "pseudo", $id_artiste, "utilisateur");
+    
+                    $nom_musique = recup_donnee_table_id($pdo, "nom", "musique", $id_musique);
+                    $id_artiste = recup_donnee_table_id($pdo, "id_artiste", "musique", $id_musique);
+                    $nom_artiste = recup_donnee_table_id($pdo, "pseudo", "utilisateur", $id_artiste);
                     generation_carte_musique($pdo, $nom_artiste, $nom_musique);
                 }
             }
@@ -461,12 +461,12 @@ function inserer_musique($pdo, $id_artiste, $nom, $date_creation, $tags, $parole
 }
 
 /*--TABLES GENERALES*/
-function recup_donnee_tab($pdo, $donnee, $id_musique, $tab)
+function recup_donnee_table_id($pdo, $donnee, $table, $id)
 {
     try
     {
-        $stmt = $pdo->prepare("SELECT $donnee FROM $tab WHERE id = :id_musique;");
-        $stmt->bindParam(':id_musique', $id_musique);
+        $stmt = $pdo->prepare("SELECT $donnee FROM $table WHERE id = :id;");
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
         $resultat = $stmt->fetchColumn();
 
@@ -478,6 +478,24 @@ function recup_donnee_tab($pdo, $donnee, $id_musique, $tab)
         echo '<p>Problème PDO</p>';
         echo $e->getMessage();
     }
+}
+
+function recup_donnee_table($pdo, $donnee, $table)
+{
+    try
+    {
+        $stmt = $pdo->prepare("SELECT $donnee FROM $table");
+        $stmt->execute();
+        $resultat = $stmt->fetch();
+
+        $stmt->closeCursor();
+        return $resultat;
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    } 
 }
 
 function supprimer_donnee($pdo, $table, $id)
@@ -495,6 +513,24 @@ function supprimer_donnee($pdo, $table, $id)
         echo '<p>Problème PDO</p>';
         echo $e->getMessage();
     }
+}
+
+/*--Recherche--*/
+function recherche($pdo, $mot_recherche)
+{
+    $tab_id_musique = recup_donnee_table($pdo, "id", "musique");
+    
+    foreach ($tab_id_musique as $id_musique)
+    {
+        $nom_musique = recup_donnee_table_id($pdo, "nom", "musique", $id_musique);
+        if ($nom_musique == $mot_recherche)
+        {
+            $id_artiste = recup_donnee_table_id($pdo, "id_artiste", "musique", $id_musique);
+            $nom_artiste = recup_donnee_table_id($pdo, "pseudo", "utilisateur", $id_artiste);
+            generation_carte_musique($pdo, $nom_artiste, $nom_musique);
+        }
+    }
+    
 }
 ?>
 
