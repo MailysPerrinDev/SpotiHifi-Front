@@ -526,6 +526,27 @@ function inserer_musique($pdo, $id_artiste, $nom, $duree, $date_creation, $tags,
     return $e;
 }
 
+function supprimer_donnee_musique($pdo, $id_artiste, $nom)
+{
+    try
+    {
+        $stmt= $pdo->prepare("DELETE FROM photo_musique WHERE id_musique IN (
+            SELECT id FROM musique WHERE nom = :nom AND id_artiste = :id);");
+        $stmt->bindParam(":nom", $nom);
+        $stmt->bindParam(":id", $id_artiste);
+        $stmt->execute();
+
+        $stmt= $pdo->prepare("DELETE FROM musique WHERE nom = :nom AND id_artiste = :id");
+        $stmt->bindParam(":nom", $nom);
+        $stmt->bindParam(":id", $id_artiste);
+        $stmt->execute();
+    }
+    catch(PDOException $e)
+        {
+            echo '<p>Problème PDO</p>';
+            echo $e->getMessage();
+        }
+}
 /*--TABLES GENERALES*/
 function recup_donnee_table_id($pdo, $donnee, $table, $id)
 {
