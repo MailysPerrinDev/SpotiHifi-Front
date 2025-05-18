@@ -400,7 +400,7 @@ function musique_aléatoire($pdo)
         {
             if (count($id_musiques) >= 9) /*Si on en a plus de 6 alors on en selectionne au hazard*/
             {
-                $musiques_aleat = array_rand($id_musiques, 9);
+                $id_musiques_aleat = array_rand($id_musiques, 9);
                 foreach ($id_musiques_aleat as $i)
                 {
                     $nom_musique = recup_donnee_table_id($pdo, "nom", "musique", $id_musiques_aleat[$i]);
