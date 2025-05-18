@@ -1,138 +1,260 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <title>SpotHifi: Inscription</title>
-        <link rel="stylesheet" href="styles.css?v=1.0">
-    </head>
-    <body>
-        
-    </body>
+<head>
+	<meta charset="utf-8">
+	<title>SpotHifi: Gestion compte</title>
+	<link rel="stylesheet" href="styles.css?v=1.0">
+	<script langage="javascript">
+	  function testJavascript() {
+	    // test pour valider que Javascript fonctionne
+	    if (! document.getElementById)
+	    {
+	       <?php $js= 1; ?>
+	    }
+	  }
+	  testJavascript();
+	</script>
+	<script src="script.js"></script>
+</head>
+<body>
+	
+</body>
 </html>
 
 <?php
 session_start();
 include('fonctions.php');
+include('connex.inc.php');
 
 creation_nav(isset($_SESSION['pseudo']));
-echo ("<div class='bloc_inscription'>");
-echo ("<h1>Inscription</h1><br><hr><br>");
+if(!isset($js))
+	$js = 0;
 
-function afficheFormulaire($p, $a, $m, $j, $mail, $e_pseudo, $e_date, $e_mail)
+function modifier($param, $js, $e)
 {
-    echo("<form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
-    echo("<label>Pseudo <input type='text' name='pseudo' value='$p' required='required'></label><br>");
-    echo ("<span class='erreur'>$e_pseudo</span><br>"); // si problème de pseudo
-    echo("<label>Date de naissance 
-        <input type='text' class='date' name='annee' value='$a' maxlength='4' pattern='\d\d\d\d'>/
-        <input type='text' class='date' name='mois' value='$m' maxlength='2' pattern='\d\d'>/
-        <input type='text' class='date' name='jour' value='$j' maxlength='2' pattern='\d\d'></label><br>");
-    echo ("<span class='erreur'>$e_date</span><br>"); // si problème de date
-    echo("<label>Adresse mail<input type='text' name='mail' value='$mail' required='required' pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'></label><br>");
-    echo("<span class='erreur'>$e_mail</span><br>"); // si problème de mail
-    echo("<label>Mot de passe <input type='password' name='mdp' required='required'></label><br>");
-    echo("<button type='submit'>Inscription</button>");
-    echo("</form>");
+	if($js)//si javscript ou pas
+		$class = 'fonction';
+	else
+		$class = 'modif';
+	
+	$contrainte = null;
+	$type = "text";
+
+	echo("<form class='$class' id=$param action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	if($param == 'mdp')
+	{
+		$type = "password";
+		echo("<label>Ancien $param<br><input type=$type name='a_$param' required='required'></input></label><br>");
+	}
+	if($param == 'mail')
+		$contrainte = "pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'";
+	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required' $contrainte></input></label><br>");
+	echo("<div class='confirmation'><button type='submit'>Confirmer</button>");
+	echo("<button type='button' onclick='afficher_form('$param')'>Annuler</button></div>");
+	echo("</form>");
+}
+
+function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
+{
+	$img_modif = 'img/pen-solid.svg';
+	/*photo de profil*/
+	echo("<div id='fond_profile'></div>");
+	echo("<a id='profile'>");
+	afficher_img_profil($_SESSION['photo'], null, "140", "100", null);
+	echo("<img class='logo' src='img/pen-solid.svg'>");
+	echo("<label onclick='modifier_photo()'> Modifier votre photo de profil<img class='modif' src=$img_modif alt='modifier'></label>");
+	echo('</a><br>');
+
+	/*Modification informations*/
+	echo("<div id='modif_infos'>");
+	echo("<h1>Informations du compte</h1><hr><br>");
+	
+	/*pseudo*/
+	echo("<div class='modif'>");
+	echo("<label onclick='afficher_form(0)'>Pseudo");
+	echo("<img src=$img_modif alt='modifier'></label><br>");
+	echo($_SESSION['pseudo']);
+	modifier('pseudo', $js, $e_pseudo);
+	echo('</div><br>');
+
+	/*adresse mail*/
+	echo("<div class='modif'>");
+	echo("<label onclick='afficher_form(1)'>Adresse mail");
+	echo("<img src=$img_modif alt='modifier'></label>");
+	
+	//recup du mail
+	$pdo = connex("spothifi");
+	try
+    {
+        $stmt = $pdo->prepare("SELECT adresse_mail FROM utilisateur WHERE id = :id");
+        $stmt->bindParam(':id', $_SESSION['id']);
+        $stmt->execute();
+
+        echo ("<br>".$stmt->fetch()[0]."<br>");
+
+        $stmt->closeCursor();
+        $pdo=null;
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    } 
+    modifier('mail', $js, $e_mail);
+    echo('</div><br>');
+
+	/*mot de passe*/
+	echo("<div class='modif'>");
+	echo("<label onclick='afficher_form(2)'>Mot de passe");
+	echo("<img src=$img_modif alt='modifier'></label><br>");
+	modifier('mdp', $js, $e_mdp);
+	echo('</div><br>');
+}
+
+function afficher_param_normal()
+{
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h1>Statut</h1><hr><br>");
+	echo("<label>Passer en compte artiste : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_artiste' value='oui'></label>");
+	echo("</div>"); /*div modif_info (fond noir)*/
+}
+
+function afficher_param_artiste($js)
+{
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h1>Statut</h1><hr><br>");
+	echo("<label>Passer en compte lambda : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
+	echo("</div>");
+}
+
+function afficher_param_admin()
+{
+	$pdo = connex("spothifi");
+
+	/*--Affichage formulaire--*/ 
+	echo("<h1>Gestion des membres</h1><hr><br>");
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Recherche</h2>");
+	echo("<label>Pseudo<input type='text' name='val'></label>");
+	echo("<label>Colonne filtre<select name='colonne'>
+		<option value='id'>id</option>
+		<option value='pseudo'>pseudo</option>
+		<option value='date_naissance'>date de naissance</option>
+		<option value='adresse_mail'>mail</option>
+		<option value='statut'>statut</option></select></label>");
+	echo("<label>Voulez-vous que ce soit par ordre décroissant ?<br>(si oui écrivez oui)<input type='text' name='croissant' pattern='oui'></label>");
+	echo("<label>Nombre de résultats<input type='text' name='nb_res' pattern='[1-9][0-9]*'></label>");
+	echo("<button type='submit';'>Confirmer</button>");
+	echo("</form>");
+
+	if(isset($_POST['val']))
+	{
+		afficher_membres($pdo, $_POST['val'], $_POST['colonne'], $_POST['nb_res'], $_POST['croissant']);
+	}
+	/*--modification--*/
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Modification</h2>");
+	echo("<label>id<input type='text' name='id' required='required' pattern='[1-9][0-9]*'></label>");
+	echo("<label>Valeur à modifier<select name='colonne'>
+		<option value='pseudo'>pseudo</option>
+		<option value='statut'>statut</option></select></label>");
+	echo("<label>Valeur<input type='text' name='n_val' required='required'></label>");
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
+
+	if(isset($_POST['id']) && isset($_POST['n_val']))		
+		modifier_utilisateur($pdo, $_POST['colonne'], $_POST['id'], $_POST['n_val'], 1);
+
+	/*--Suppression--*/
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Suppression</h2>");
+	echo("<label>id<input type='text' name='s_id' required='required' pattern='[1-9][0-9]*'></label>");
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
+
+	if(isset($_POST['s_id']))
+		supprimer_donnee($pdo, 'utilisateur', $_POST['s_id']);
+
+	$pdo = null;
 }
 
 
-if (isset($_SESSION['pseudo']))
+if(!isset($_SESSION['pseudo']))
 {
-    echo("<p>Vous pouvez pas vous inscrire, vu que vous êtes connecté ;w;<br></p>");
+	echo("<p>");
+	echo("<span>Vous vous êtes perdu :O<br>Veuillez vous connecter pour accéder aux options de cette page. Le bouton suivant vous mettra directement sur la page d'accès :</span><br>");
+	echo("<button type='button'><a href='connexion.php'>Connexion</a></button>");
+	echo("</p>");
+	
+	echo("<p>");
+	echo("<span>Sinon veuillez retourner à la page d'accueil :</span><br>");
+	echo("<button type='button'><a href='index.html'>Home</a></button>");
+	echo("</p>");
 }
 else
 {
-    /*initialisation des variables d'erreurs*/
-    $e_pseudo = NULL;
-    $e_mail = NULL;
-    $e_date = NULL;
+	$e_pseudo = null;
+	$e_mail = null;
+	$e_mdp = null;
+	
+	/*--Changement paramètres--*/
 
-    if (!isset($_POST['pseudo']))//si c'est la première fois qu'on le rempli
-    {
-        afficheFormulaire(NULL, 'AAAA', 'MM', 'JJ', NULL, $e_pseudo, $e_date, $e_mail);
-    }
-    else
-    {
+	/*modification des données et récupération des erreurs*/
 
-        /*Recup de variable de post*/
-        $pseudo = $_POST['pseudo'];
-        $mdp = $_POST['mdp'];
-        $mail = $_POST['mail'];
-        $a = $_POST['annee'];
-        $m = $_POST['mois'];
-        $j = $_POST['jour'];
+	$pdo = connex("spothifi");
 
-        $valide = 1;
+	//changement pseudo
+	if(isset($_POST['n_pseudo']))
+		$e_pseudo = modifier_utilisateur($pdo,"pseudo", $_SESSION['id'], $_POST['n_pseudo'], null);
+	
+	//changement mail
+	else if(isset($_POST['n_mail']))
+		$e_mail = modifier_utilisateur($pdo, "adresse_mail", $_SESSION['id'], $_POST['n_mail'], null);
+	
+	//changement mot de passe
+	else if(isset($_POST['n_mdp']))
+	{
+		$a_mdp = password_hash(md5($_POST['a_mdp']), PASSWORD_BCRYPT);
+		$n_mdp = password_hash(md5($_POST['n_mdp']), PASSWORD_BCRYPT);
 
-        /*Vérifications*/
-        if(!checkdate($m, $j, $a)) //si date de naissance valide
-        {
-            $e_date = "Date invalide";
-            $m = 'MM';
-            $j = 'JJ';
-            $a = 'AAAA';
-            $valide = 0;
-        }
+		//faut vérifier si bon mot de passe
+		$stmt = $pdo->prepare("SELECT mdp FROM utilisateur WHERE pseudo = :pseudo");
+        $stmt->bindParam(':pseudo', $pseudo);
+        $stmt->execute();
 
-        include('connex.inc.php');
-        $pdo = connex("spothifi");
-        try
-        {
-            $stmt = $pdo->prepare("SELECT id FROM utilisateur WHERE pseudo LIKE :pseudo");
-            $stmt->bindParam(':pseudo', $pseudo);
-            $stmt->execute();
-            if ($stmt->rowCount() != 0)
-            {
-                $e_pseudo = "Ce pseudo est déjà utilisé";
-                $pseudo = NULL;
-                $valide = 0;
-            }
-                
-            $stmt = $pdo->prepare("SELECT id FROM utilisateur WHERE adresse_mail LIKE :mail");
-            $stmt->bindParam(':mail', $mail);
-            $stmt->execute();
-            if ($stmt->rowCount() != 0)
-            {
-                $e_mail = "Ce mail est déjà utilisé";
-                $mail = NULL;
-                $valide = 0;
-            }
-            $stmt->closeCursor();
-        }
-        catch(PDOException $e)
-        {
-            echo '<p>Problème PDO</p>';
-            echo $e->getMessage();
-        }
-        
-        if($valide)
-        { 
-            $mdp = password_hash(md5($mdp), PASSWORD_BCRYPT);
+        $hachage = $stmt->fetch()[0];
+        if ($stmt->rowCount() == 0 || !(password_verify($a_mdp, $hachage)))
+            $e_mdp = "Votre mot de passe n'est pas bon";
+		else
+			$e_mdp = modifier_utilisateur($pdo, "mdp", $_SESSION['id'], $n_mdp, null);
+	}
+	
+	//changement statut
+	else if(isset($_POST['veux_artiste']))
+	{		
+		modifier_utilisateur($pdo, "statut", $_SESSION['id'], 1, null);
+		$pdo=null;
+	}
+	else if (isset($_POST['veux_lambda'])) 
+	{
+		modifier_utilisateur($pdo, "statut", $_SESSION['id'], 0, null);
+	}
+	$pdo=null;
 
-            try
-            {
-                $stmt = $pdo->prepare("INSERT INTO utilisateur (pseudo, date_naissance, adresse_mail, mdp, statut) VALUES(:p, '$a-$m-$j', :m, :mdp, 0)");
-                $stmt->bindParam(':p', $pseudo);
-                $stmt->bindParam(':m', $mail);
-                $stmt->bindParam(':mdp', $mdp);
-                $stmt->execute();
-                $stmt->closeCursor();
-            }
-            catch(PDOException $e)
-            {
-                echo '<p>Problème PDO</p>';
-                echo $e->getMessage();
-            }
-            echo ("<p>Ca a marché :3<br> Félicitations vous êtes maintenant inscrit sur SpotHifi ! \(^w^)/</p><br><button type='button'><a href='connexion.php'>Connexion</a></button>");
-        }
-        else
-        {
-            afficheFormulaire($pseudo, $a, $m, $j, $mail, $e_pseudo, $e_date, $e_mail);
-        }
-
-        $pdo= NULL;
-    }
+	/*affichage de la page*/
+	afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp);
+	switch($_SESSION['statut'])
+	{
+		case 0:
+			afficher_param_normal();
+			break;
+		case 1:
+			afficher_param_artiste($js);  
+			break;
+		case 2:
+			afficher_param_admin();
+			break;
+	}
 }
-echo("</div>");
 creation_footer();
 ?>
