@@ -569,6 +569,23 @@ nav a
         padding-top: 0;
     }
     
+    form 
+    {
+
+        
+        label 
+        {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;  
+        }
+        
+        input 
+        {
+            border: 2px solid var(--primaire);
+        }
+    }
+    
     label
     {        
         padding-top: 2%;
@@ -576,6 +593,11 @@ nav a
         justify-content: space-between;
         cursor: pointer;
         
+    }
+    button 
+    {
+        background-color: var(--primaire);
+        border: none;
     }
     
 }

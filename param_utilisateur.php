@@ -113,16 +113,16 @@ function afficher_param_base($js, $e_pseudo, $e_mail, $e_mdp)
 
 function afficher_param_normal()
 {
-	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	echo("<h1>Statut</h1><hr><br>");
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	echo("<label>Passer en compte artiste : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_artiste' value='oui'></label>");
 	echo("</div>"); /*div modif_info (fond noir)*/
 }
 
 function afficher_param_artiste($js)
 {
-	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	echo("<h1>Statut</h1><hr><br>");
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	echo("<label>Passer en compte lambda : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
 	echo("</div>");
 }
