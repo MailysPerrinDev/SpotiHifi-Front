@@ -125,7 +125,7 @@ else
                 else
                     echo $e->getMessage();
             }
-            if($e=="" || $e==null)
+            if(!isset($e))
                 echo ("<p>Ca a marché :3<br> Félicitations vous êtes maintenant inscrit sur SpotHifi ! \(^w^)/</p><br><button type='button'><a href='connexion.php'>Connexion</a></button>");
         }
         else
