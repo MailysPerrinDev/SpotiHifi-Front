@@ -486,8 +486,8 @@ function recup_donnee_table($pdo, $donnee, $table)
     {
         $stmt = $pdo->prepare("SELECT $donnee FROM $table");
         $stmt->execute();
-        $resultat = $stmt->fetch();
-
+        $resultat = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        
         $stmt->closeCursor();
         return $resultat;
     }
@@ -519,18 +519,19 @@ function supprimer_donnee($pdo, $table, $id)
 function recherche($pdo, $mot_recherche)
 {
     $tab_id_musique = recup_donnee_table($pdo, "id", "musique");
-    
+
     foreach ($tab_id_musique as $id_musique)
     {
         $nom_musique = recup_donnee_table_id($pdo, "nom", "musique", $id_musique);
-        if ($nom_musique == $mot_recherche)
+        $distance = levenshtein(mb_strtolower($mot_recherche, 'UTF-8'), mb_strtolower($nom_musique, 'UTF-8'));
+        
+        if ($nom_musique === $mot_recherche || $distance <= 10)
         {
             $id_artiste = recup_donnee_table_id($pdo, "id_artiste", "musique", $id_musique);
             $nom_artiste = recup_donnee_table_id($pdo, "pseudo", "utilisateur", $id_artiste);
             generation_carte_musique($pdo, $nom_artiste, $nom_musique);
         }
-    }
-    
+    }    
 }
 ?>
 

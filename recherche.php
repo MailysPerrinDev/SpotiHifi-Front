@@ -32,7 +32,10 @@ if ($recherche == '' || !isset($recherche))
 }
 else
 {
+    echo("<div id='recommandations'>");
+    echo("<div id='musiques'>");
     recherche($pdo, $recherche);
+    echo("</div></div>");
 }
 
 creation_footer();
