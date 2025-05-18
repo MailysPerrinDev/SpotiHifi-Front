@@ -1,3 +1,4 @@
+<script src="script.js"></script>
 <?php
 
 function creation_nav($est_connecter)
@@ -25,7 +26,7 @@ function creation_recherche($pdo, $valeur)
             <div id='btn_recherche'>
                 <img src='img/logoRecherche.svg' alt='valider'>
             </div>
-            <input id='recherche' name='recherche' type='text' placeholder='Recherche...' value=$valeur>
+            <input id='recherche' name='recherche' type='text' placeholder='Recherche...' value='$valeur'>
         </form>
         ");
     echo("<div id='menu_filtre'>");
@@ -47,7 +48,7 @@ function creation_recherche($pdo, $valeur)
                 {
                     if ($tags_aleat[$i] != NULL)
                     {
-                        echo("<button class='tag'><span>".$tags_aleat[$i]."</span></button>");
+                        echo("<button class='tag' name='$tags_aleat[$i]' onclick='recherche_tag()'><span>".$tags_aleat[$i]."</span></button>");
                     }
                 }
             }
@@ -57,7 +58,7 @@ function creation_recherche($pdo, $valeur)
                 {
                     if ($tag != NULL)
                     {
-                        echo("<button class='tag'><span>".$tag."</span></button>");
+                        echo("<button class='tag' name='$tag' onclick='recherche_tag()'><span>".$tag."</span></button>");
                     }
                 }
             }
@@ -314,7 +315,7 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
         {
             if ($tag != NULL)
             {
-                echo("<button class='tag'><span>".htmlspecialchars($tag)."</span></button>");
+                echo("<button class='tag' name='$tag' onclick='recherche_tag()'><span>".htmlspecialchars($tag)."</span></button>");
             }
         }
     }
@@ -324,7 +325,7 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
         {
             if ($tag[$i]!= NULL)
             {
-                echo("<button class='tag'><span>".htmlspecialchars($tags[$i])."</span></button>");
+                echo("<button class='tag' name='$tags[$i]' onclick='recherche_tag()'><span>".htmlspecialchars($tags[$i])."</span></button>");
             }
         }
         echo("<button class='tag'><span>...</span></button>");

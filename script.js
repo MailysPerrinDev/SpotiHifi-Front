@@ -22,3 +22,8 @@ function afficher_form(id)
         document.getElementById(ids[id]).style.display = "flex";
     }
 }
+
+function recherche_tag()
+{
+    document.getElementById("recherche").value = button.name;
+}
