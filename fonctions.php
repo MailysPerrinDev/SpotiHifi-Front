@@ -322,7 +322,7 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     {
         for ($i=0; $i<count($tags); $i++)
         {
-            if ($tag[$i]!= NULL)
+            if ($tags[$i]!= NULL)
             {
                 echo("<button class='tag' name='$tags[$i]' onclick='recherche_tag()'><span>".htmlspecialchars($tags[$i])."</span></button>");
             }
