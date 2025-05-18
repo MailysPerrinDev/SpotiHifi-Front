@@ -120,10 +120,13 @@ else
             }
             catch(PDOException $e)
             {
-                echo '<p>Problème PDO</p>';
-                echo $e->getMessage();
+                if(preg_match("/\b1644\b/i", $e->getMessage()))
+                    echo("<p class='erreur'>L'utilisateur n'a pas l'âge requis</p>");
+                else
+                    echo $e->getMessage();
             }
-            echo ("<p>Ca a marché :3<br> Félicitations vous êtes maintenant inscrit sur SpotHifi ! \(^w^)/</p><br><button type='button'><a href='connexion.php'>Connexion</a></button>");
+            if($e=="" || $e==null)
+                echo ("<p>Ca a marché :3<br> Félicitations vous êtes maintenant inscrit sur SpotHifi ! \(^w^)/</p><br><button type='button'><a href='connexion.php'>Connexion</a></button>");
         }
         else
         {
