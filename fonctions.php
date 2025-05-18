@@ -255,7 +255,6 @@ function modifier_utilisateur($pdo, $colonne, $id, $n_val, $s)
 function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
 {
     $photo = "img/photoParDefaut.png";
-    echo("<a class='carte_musique' href='musique.php'>");
     
     /*couverture de la musique*/
     /*On recupere la photo*/
@@ -290,7 +289,7 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
         echo '<p>Problème PDO</p>';
         echo $e->getMessage();
     }
-    
+    echo("<a class='carte_musique' href='musique.php?id_musique=$id_musique'>");
     echo("<div class='couverture'>");
     echo("<img src=".$photo.">");
     echo("</div>");
@@ -470,7 +469,7 @@ function recup_donnee_table_id($pdo, $donnee, $table, $id)
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $resultat = $stmt->fetchColumn();
-
+       
         $stmt->closeCursor();
         return $resultat;
     }
