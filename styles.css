@@ -609,6 +609,41 @@ nav a
     }    
 }
 
+/*--Page Musique--*/
+#video
+{
+    margin: 2%;
+    padding: 2%;
+    
+    align-content: center;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    
+    iframe 
+    {   
+        align-self: center;
+        width: 500px;
+        height: 250px;
+    }
+    h1 
+    {
+        color: var(--primaire);
+    }
+}
+#page_musique #description, #paroles
+{
+    margin: 2%;
+    padding: 2%;
+    height: 10%;
+    background-color: var(--terciaire);
+}
+#page_musique #paroles
+{
+    margin-bottom: 15%;
+}
 
 /*--Mode pc--*/
 @media (orientation: landscape) and (min-width: 900px)
@@ -691,5 +726,12 @@ nav a
         margin-top: 10%; 
     
         border-radius: 2em;
+    }
+    /*--Page musique--*/
+    #video iframe 
+    {   
+        align-self: center;
+        width: 1000px;
+        height: 500px;
     }
 }

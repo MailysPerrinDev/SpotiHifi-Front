@@ -35,14 +35,30 @@ if (isset($_GET["id_musique"]))
     $paroles = recup_donnee_table_id($pdo, "paroles", "musique", $id_musique);
     
     echo("<div id='page_musique'>");
-    echo("<div id='video'><iframe src='$lien' frameborder='0' allow='picture-in-picture' allowfullscreen></iframe><br>");
-    echo("<a href='$lien' target='_blank'>Cliquez ici, si la vidéo ne s'affiche pas</a>");
+    echo("<div id='video'><iframe src='$lien' frameborder='0' allowfullscreen></iframe><br>");
+    echo("<a href='$lien' target='_blank'>Cliquez ici, si la vidéo ne s'affiche pas</a><br>");
     echo("<h1>$nom</h1>");
-    echo("<p>Crée le $date_creation<br>Nombre de like : $nb_like<br></p>");
+    echo("<p>Crée le $date_creation<br>Nombre de like : $nb_like<br></p></div>");
     echo("<h1>Description</h1><hr><br>");
-    echo("<p id='description'>$description</p>");
-    echo("<h1>Paroles</h1><hr><br>");
-    echo("<p id='paroles'>$paroles</p>");
+    if (!$description)
+    {
+        echo("<p id='description'>Indisponible</p>");
+    }
+    else
+    {
+        echo("<p id='description'>$description</p>");
+    }
+    
+    echo("<br><h1>Paroles</h1><hr><br>");
+    if (!$paroles)
+    {
+        echo("<p id='paroles'>Indisponible</p>");
+    }
+    else
+    {
+        echo("<p id='paroles'>$paroles</p>");
+    }
+    echo("<br>");
 }
 else
 {
