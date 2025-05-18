@@ -156,8 +156,14 @@ function afficher_param_artiste($e_musique)
 	echo $e_musique;
 	echo("<button type='submit'>Confirmer</button>");
 	echo("</form>");
-	echo("</div>");
 
+	/*--Suppression--*/
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Suppression musique</h2>");
+	echo("<label>Nom<input type='text' name='s_m_id' required='required'></label>");
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
+	echo("</div>");
 
 	$pdo = null;
 }
@@ -280,6 +286,9 @@ else
 		$e_musique = inserer_musique($pdo, $_SESSION['id'], $_POST['nom_m'], $_POST['duree_m'],date("Y-m-d"), 'rock', $_POST['paroles_m'], $_POST['description_m'], $_POST['lien_m']);
 		$_POST = array();
 	}
+	//artiste : suppression musique
+	else if(isset($_POST['s_m_id']))
+		supprimer_donnee_musique($pdo, $_SESSION['id'], $_POST['s_m_id']);
 	$pdo=null;
 
 	/*affichage de la page*/
