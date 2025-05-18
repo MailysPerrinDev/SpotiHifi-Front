@@ -252,6 +252,61 @@ function modifier_utilisateur($pdo, $colonne, $id, $n_val, $s)
 }
 
 /*---MUSIQUE---*/
+
+function afficher_musiques_artiste($pdo, $id_artiste)
+{
+    try
+    {
+        $stmt= $pdo->prepare("SELECT id, nom, duree, date_creation, nb_like, description, lien FROM musique WHERE id_artiste = :id ORDER BY date_creation DESC");
+        $stmt->bindParam(":id", $id_artiste);
+        $stmt->execute();
+
+        $nb_musique = $stmt->rowCount();
+        echo("<input type='text' name='nb_musique' value='$nb_musique' readonly='readonly'><span> musique(s)</span>");
+        $donnees = $stmt->fetchALL();
+    }
+    catch(PDOException $e)
+    {
+        echo '<p>Problème PDO</p>';
+        echo $e->getMessage();
+    }
+
+    $field= ['nom', 'duree', 'date_creation', 'nb_like', 'description', 'lien'];
+    
+
+    echo("<table>");
+    echo("<thead><tr><th>Id</th><th>Nom</th><th>Duree</th><th>Date de creation</th><th>Nombre de likes</th><th>Description</th><th>Lien</th></tr></thead>");
+    if(isset($donnees))
+    {
+        for($j=0; $j<$nb_musique; $j+=1)
+        {
+            echo("<tr>");
+            echo("<td><input type='text' name='".$j."id' value='".$donnees[$j][0]."' readonly='readonly'></td>");
+            for($i=1; $i<7; $i+=1)
+            {
+                echo("<td>");
+                if($field[$i-1] == 'description')
+                    echo('<textarea cols="20" rows="1" name="'.$j.$field[$i-1].'" value = "'.$donnees[$j][$i].'"></textarea>');
+                else
+                {
+                    echo("<input type='text' name='".$j.$field[$i-1]."'");
+                    if($field[$i-1] == 'name')
+                    {
+                        echo("required='required'");
+                    }
+                    else if($i != 1 && $i<=4)
+                        echo(" readonly= 'readonly' ");
+                    echo(" value='".$donnees[$j][$i]."'>");
+                }
+                echo("</td>");
+            }
+            echo("</tr><br>");
+        }           
+    }
+    echo("</table>");
+    return $nb_musique;
+}
+
 function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
 {
     $photo = "img/photoParDefaut.png";
@@ -385,7 +440,7 @@ function modifier_musique($pdo, $colonne, $id, $n_val)
     {
         if($colonne = "nb_like")
         {
-            $stmt = $pdo->prepare("SELECT nb_like WHERE id = :id");
+            $stmt = $pdo->prepare("SELECT nb_like FROM musique WHERE id = :id");
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
@@ -395,7 +450,8 @@ function modifier_musique($pdo, $colonne, $id, $n_val)
         {
             $e = "duree trop grande";
         }
-        if($e == null)
+        
+        if($e == null && $n_val != null)
         {
             $stmt = $pdo->prepare("UPDATE musique SET $colonne = :val WHERE id = :id ;");
             $stmt->bindParam(':id', $id);
@@ -404,7 +460,7 @@ function modifier_musique($pdo, $colonne, $id, $n_val)
 
             if($stmt->rowCount() == 0)
             {
-                $e = "Problème mise à jour pas faite";
+                $e = "Problème mise à jour pas été faite";
             }
         }
 
@@ -419,42 +475,52 @@ function modifier_musique($pdo, $colonne, $id, $n_val)
     return $e;
 }
 
-
-
-function inserer_musique($pdo, $id_artiste, $nom, $date_creation, $tags, $paroles, $description, $lien_clip)
+function inserer_musique($pdo, $id_artiste, $nom, $duree, $date_creation, $tags, $paroles, $description, $lien_clip)
 {
 
     $e = null;
 
-    try
+    if($id_artiste==null || $duree==null || $nom==null || $date_creation==null || $tags==null || $lien_clip==null)
+            $e = "il manque des attributs obligatoires<br>";
+    else
     {
-        if($id_artiste==null || $nom==null || $date_creation==null || $tags==null)
-            $e = "il manque des attributs obligatoires";
-
-        else
+        try
         {
-            $stmt = $pdo->prepare("INSERT INTO musique(id_artiste, nom, duree, date_creation, paroles, tags, description, lien_clip) VALUES (:id, :n, :dc, :p, :t, :dec, :l)");
+            $stmt = $pdo->prepare("SELECT id FROM musique WHERE id_artiste= :id AND nom= :n");
             $stmt->bindParam(':id', $id_artiste);
             $stmt->bindParam(':n', $nom);
-            $stmt->bindParam(':dc', $date_creation);
-            $stmt->bindParam(':p', $paroles);
-            $stmt->bindParam(':t', $tags);
-            $stmt->bindParam(':dec', $description);
-            $stmt->bindParam(':l', $lien_clip);
             $stmt->execute();
 
             if($stmt->rowCount() == 0)
             {
-                $e = "Problème insertion pas faite";
-            }
-        }
+                $stmt = $pdo->prepare("INSERT INTO musique(id_artiste, nom, duree, date_creation, paroles, tags, description, lien) VALUES (:id, :n, :d, :dc, :p, :t, :dec, :l)");
+                $stmt->bindParam(':id', $id_artiste);
+                $stmt->bindParam(':n', $nom);
+                $stmt->bindParam(':d', $duree);
+                $stmt->bindParam(':dc', $date_creation);
+                $stmt->bindParam(':p', $paroles);
+                $stmt->bindParam(':t', $tags);
+                $stmt->bindParam(':dec', $description);
+                $stmt->bindParam(':l', $lien_clip);
+                $stmt->execute();
 
-        $stmt->closeCursor();
-    }
-    catch(PDOException $e)
-    {
-        echo '<p>Problème PDO</p>';
-        echo $e->getMessage();
+                if($stmt->rowCount() == 0)
+                {
+                    $e = "Problème insertion pas faite<br>";
+                }
+            }
+            else
+            {
+                $e= "Nom de la musique déjà existant<br>";
+            }
+
+            $stmt->closeCursor();
+        }
+        catch(PDOException $e)
+        {
+            echo '<p>Problème PDO</p>';
+            echo $e->getMessage();
+        }
     }
 
     return $e;
