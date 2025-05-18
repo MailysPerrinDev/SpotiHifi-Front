@@ -24,9 +24,9 @@ function afficheFormulaire($p, $a, $m, $j, $mail, $e_pseudo, $e_date, $e_mail)
     echo("<label>Pseudo <input type='text' name='pseudo' value='$p' required='required'></label><br>");
     echo ("<span class='erreur'>$e_pseudo</span><br>"); // si problème de pseudo
     echo("<label>Date de naissance 
-        <input type='text' class='date' name='annee' value='$a' maxlength='4' pattern='\d\d\d\d'>/
-        <input type='text' class='date' name='mois' value='$m' maxlength='2' pattern='\d\d'>/
-        <input type='text' class='date' name='jour' value='$j' maxlength='2' pattern='\d\d'></label><br>");
+        <input type='text' class='date' name='annee' value='$a' placeholder='AAAA' maxlength='4' pattern='\d\d\d\d'>/
+        <input type='text' class='date' name='mois' value='$m' placeholder='MM' maxlength='2' pattern='\d\d'>/
+        <input type='text' class='date' name='jour' value='$j' placeholder='JJ' maxlength='2' pattern='\d\d'></label><br>");
     echo ("<span class='erreur'>$e_date</span><br>"); // si problème de date
     echo("<label>Adresse mail<input type='text' name='mail' value='$mail' required='required' pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'></label><br>");
     echo("<span class='erreur'>$e_mail</span><br>"); // si problème de mail
@@ -49,7 +49,7 @@ else
 
     if (!isset($_POST['pseudo']))//si c'est la première fois qu'on le rempli
     {
-        afficheFormulaire(NULL, 'AAAA', 'MM', 'JJ', NULL, $e_pseudo, $e_date, $e_mail);
+        afficheFormulaire(NULL, NULL, NULL, NULL, NULL, $e_pseudo, $e_date, $e_mail);
     }
     else
     {
