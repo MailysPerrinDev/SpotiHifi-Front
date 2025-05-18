@@ -50,7 +50,6 @@ function modifier($param, $js, $e)
 		$contrainte = "pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'";
 	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required' $contrainte></input></label><br>");
 	echo("<div class='confirmation'><button type='submit'>Confirmer</button>");
-	echo("<button type='button' onclick='afficher_form('$param')'>Annuler</button></div>");
 	echo("</form>");
 }
 
@@ -132,12 +131,53 @@ function afficher_param_normal()
 	echo("</div>"); /*div modif_info (fond noir)*/
 }
 
-function afficher_param_artiste($js)
+function afficher_param_artiste($e_musique)
 {
-	echo("<h1>Statut</h1><hr><br>");
 	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h1>Statut</h1><hr><br>");
 	echo("<label>Passer en compte lambda : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
+	echo("</form>");
+
+	/*Gestion Musique*/
+	$pdo = connex("spothifi");
+
+	if(isset($_POST['0id']))
+	{
+		for($i=0; $i<$_POST['nb_musique']; $i++)
+		{
+				modifier_musique($pdo,"nom", $_POST[$i."id"], $_POST[$i."nom"]);
+				modifier_musique($pdo, 'description', $_POST[$i."id"], $_POST[$i."description"]);
+				modifier_musique($pdo, 'lien', $_POST[$i."id"], $_POST[$i."lien"]);
+		}
+	}
+
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h1>Vos musiques</h1><hr><br>");
+	$nb_musique= afficher_musiques_artiste($pdo, $_SESSION['id']);
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
+
+	/*Insérer Musique*/
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Ajout musique</h2><hr><br>");
+	echo("<label>Nom<input type='text' name = 'nom_m' required='required'></label><br>");
+	echo("<label>Lien vidéo<input type='text' name = 'lien_m' required='required'></label><br>");
+	echo("<label>duree (hh:mm:ss)<input type='text' name = 'duree_m' required='required' pattern='\d\d:\d\d:\d\d'></label><br>");
+	echo("<label>Description<textarea name='description_m' placeholder='Rythmé et dansante un plaisir'></textarea></label><br>");
+	echo("<label>Paroles<textarea name='paroles_m' placeholder='Never gonna give you up, never gonna let you down [...]'></textarea></label><br>");
+	echo $e_musique;
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
+
+	/*--Suppression--*/
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
+	echo("<h2>Suppression musique</h2>");
+	echo("<label>Nom<input type='text' name='s_m_id' required='required'></label>");
+	echo("<button type='submit'>Confirmer</button>");
+	echo("</form>");
 	echo("</div>");
+
+	$pdo = null;
 }
 
 function afficher_param_admin()
@@ -333,6 +373,15 @@ else
 	{
 		modifier_utilisateur($pdo, "statut", $_SESSION['id'], 0, null);
 	}
+	//artiste : insertion musique
+	else if(isset($_POST['nom_m']))
+	{
+		$e_musique = inserer_musique($pdo, $_SESSION['id'], $_POST['nom_m'], $_POST['duree_m'],date("Y-m-d"), 'rock', $_POST['paroles_m'], $_POST['description_m'], $_POST['lien_m']);
+		$_POST = array();
+	}
+	//artiste : suppression musique
+	else if(isset($_POST['s_m_id']))
+		supprimer_donnee_musique($pdo, $_SESSION['id'], $_POST['s_m_id']);
 	$pdo=null;
 
 	
