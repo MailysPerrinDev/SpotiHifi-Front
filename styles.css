@@ -637,12 +637,25 @@ nav a
 {
     margin: 2%;
     padding: 2%;
-    height: 10%;
+    min-height: 10%;
     background-color: var(--terciaire);
 }
 #page_musique #paroles
 {
     margin-bottom: 15%;
+}
+
+/*--Page d'aide--*/
+#titre_page_aide
+{
+    margin-top: 5%;
+    text-align: center;
+}
+#page_aide p 
+{
+    margin: 2%;
+    padding: 2%;
+    background-color: var(--terciaire);
 }
 
 /*--Mode pc--*/
