@@ -612,7 +612,7 @@ function recherche($pdo, $mot_recherche)
         $nom_musique = recup_donnee_table_id($pdo, "nom", "musique", $id_musique);
         $distance = levenshtein(mb_strtolower($mot_recherche, 'UTF-8'), mb_strtolower($nom_musique, 'UTF-8'));
         
-        if ($nom_musique === $mot_recherche || $distance <= 10)
+        if ($nom_musique === $mot_recherche || $distance <= 7)
         {
             $id_artiste = recup_donnee_table_id($pdo, "id_artiste", "musique", $id_musique);
             $nom_artiste = recup_donnee_table_id($pdo, "pseudo", "utilisateur", $id_artiste);

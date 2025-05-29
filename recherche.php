@@ -24,7 +24,7 @@ creation_recherche($pdo, $recherche);
 echo("<h1>Résultat");
 if (isset($recherche) && !($recherche == ''))
 {
-    echo(" pour : ".$recherche);
+    echo(" pour : ".htmlspecialchars($recherche));
 }
 echo("...</h1><hr>");
 if ($recherche == '' || !isset($recherche))
