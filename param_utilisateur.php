@@ -25,7 +25,7 @@
 session_start();
 include('fonctions.php');
 include('connex.inc.php');
-
+   
 creation_nav(isset($_SESSION['pseudo']));
 if(!isset($js))
 	$js = 0;
@@ -49,11 +49,11 @@ function modifier($param, $js, $e)
 	if($param == 'mail')
 		$contrainte = "pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'";
 	echo("<label>Nouveau $param<br><input type='text' name='n_$param' required='required' $contrainte></input></label><br>");
-	echo("<div class='confirmation'><button type='submit'>Confirmer</button>");
+	echo("<div class='confirmation'><button type='submit'>Confirmer</button></div>");
 	echo("</form>");
 }
 
-function modifier_pdp($js)
+function modifier_pdp($js)                                                                             
 {
 	if($js)//si javscript ou pas
 		$class = 'fonction';
@@ -400,5 +400,6 @@ else
 			break;
 	}
 }
+echo("</div>");
 creation_footer();
 ?>
