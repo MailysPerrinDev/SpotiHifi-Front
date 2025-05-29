@@ -73,7 +73,7 @@ else
                     $_SESSION['statut'] = $stmt2->fetch()[0];
                     
                     /*création fichier image de profil de l'utilisateur*/
-                    $img_tmp = "img/$pseudo.jpg";
+                    $img_tmp = "img/utilisateur/$pseudo.jpg";
                     //on cherche si l'utilisateur a une photo de profil
                     $stmt2 = $pdo->prepare("SELECT id_photo FROM photo_utilisateur WHERE id_utilisateur = :id");
                     $stmt2->bindParam(':id', $_SESSION['id']);
