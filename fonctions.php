@@ -35,20 +35,29 @@ function creation_recherche($pdo, $valeur)
     {
         $stmt = $pdo->prepare("SELECT DISTINCT(tags) FROM musique");
         $stmt->execute();
-        $tags = $stmt->fetchALL(PDO::FETCH_COLUMN);
+        $t_tags = $stmt->fetchALL(PDO::FETCH_COLUMN);
+        $tags = array();
         
         if ($stmt->rowcount() != 0)
         {
-
+           foreach ($t_tags as $t)
+            {
+                $t = explode(',', $t);
+                foreach ($t as $tag)
+                {
+                    array_push($tags, $tag);
+                }
+            }
+            
             if (count($tags)>=6) /*Si on en a plus de 6 alors on en selectionne au hazard*/
             {
                 $tags_aleat = array_rand($tags, 6);
-
+                
                 foreach ($tags_aleat as $i)
                 {
-                    if ($tags_aleat[$i] != NULL)
+                    if ($tags[$i] != NULL)
                     {
-                        echo("<button class='tag' name='$tags_aleat[$i]' onclick='recherche_tag()'><span>".$tags_aleat[$i]."</span></button>");
+                        echo("<button class='tag' name='$tags[$i]' onclick='recherche_tag()'><span>".$tags[$i]."</span></button>");
                     }
                 }
             }
