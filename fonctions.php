@@ -31,52 +31,50 @@ function creation_recherche($pdo, $valeur)
         ");
     echo("<div id='menu_filtre'>");
     
-    try
+    $t_tags = recup_donnee_table($pdo, "tags", "musique");
+    $tags = array();
+    
+    foreach ($t_tags as $t) /*On filtre pour qu'il n'y ait pas de fusion de plusieurs tags*/
     {
-        $stmt = $pdo->prepare("SELECT DISTINCT(tags) FROM musique");
-        $stmt->execute();
-        $t_tags = $stmt->fetchALL(PDO::FETCH_COLUMN);
-        $tags = array();
-        
-        if ($stmt->rowcount() != 0)
+        $t = explode(',', $t);
+        foreach ($t as $tag)
         {
-           foreach ($t_tags as $t)
+            $existe = 0;
+            foreach ($tags as $existant)
             {
-                $t = explode(',', $t);
-                foreach ($t as $tag)
+                if($tag === $existant)
                 {
-                    array_push($tags, $tag);
+                    $existe = 1;
                 }
             }
-            
-            if (count($tags)>=6) /*Si on en a plus de 6 alors on en selectionne au hazard*/
+            if (!$existe)
             {
-                $tags_aleat = array_rand($tags, 6);
-                
-                foreach ($tags_aleat as $i)
-                {
-                    if ($tags[$i] != NULL)
-                    {
-                        echo("<button class='tag' name='$tags[$i]' onclick='recherche_tag()'><span>".$tags[$i]."</span></button>");
-                    }
-                }
-            }
-            else
-            {
-                foreach($tags as $tag)
-                {
-                    if ($tag != NULL)
-                    {
-                        echo("<button class='tag' name='$tag' onclick='recherche_tag()'><span>".$tag."</span></button>");
-                    }
-                }
+                array_push($tags, $tag);
             }
         }
     }
-    catch(PDOException $e)
+    
+    if (count($tags) > 7) /*Si on en a plus de 6 alors on en selectionne au hazard*/
     {
-        echo '<p>Problème PDO</p>';
-        echo $e->getMessage();
+        $tags_aleat = array_rand($tags, 7);
+        
+        foreach ($tags_aleat as $i)
+        {
+            if ($tags[$i] != NULL)
+            {
+                echo("<button class='tag' name='$tags[$i]' onclick='recherche_tag()'><span>".$tags[$i]."</span></button>");
+            }
+        }
+    }
+    else
+    {
+        foreach($tags as $tag)
+        {
+            if ($tag != NULL)
+            {
+                echo("<button class='tag' name='$tag' onclick='recherche_tag()'><span>".$tag."</span></button>");
+            }
+        }
     }
     
     echo("</div>");
