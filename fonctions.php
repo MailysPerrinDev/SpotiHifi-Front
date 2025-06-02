@@ -362,7 +362,9 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     $description = recup_donnee_table_id($pdo, "description", "musique", $id_musique);
     
     if ($description == NULL)
+    {
         $description = "Aucune description";
+    }
     
     echo("<div class='description'>");
     echo("<h2>".htmlspecialchars($nom)."</h2>");
@@ -370,7 +372,8 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     echo("<div class='liste_tags'>");
     
     $tags = explode(',', $tags);
-    if (count($tags) <= 3)
+    
+    if (count($tags) < 3)
     {
         foreach ($tags as $tag)
         {
@@ -382,7 +385,8 @@ function generation_carte_musique($pdo, $nom_artiste, $nom_musique)
     }
     else
     {
-        for ($i=0; $i<count($tags); $i++)
+        $tags_aleat = array_rand($tags, 2);
+        foreach ($tags_aleat as $i)
         {
             if ($tags[$i]!= NULL)
             {
