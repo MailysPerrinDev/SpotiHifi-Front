@@ -133,8 +133,8 @@ function afficher_param_normal()
 
 function afficher_param_artiste($e_musique)
 {
-	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	echo("<h1>Statut</h1><hr><br>");
+	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
 	echo("<label>Passer en compte lambda : <button type='submit'>Oui</button></form><input type='text' class='fonction' name='veux_lambda' value='oui'></label>");
 	echo("</form>");
 
@@ -151,27 +151,26 @@ function afficher_param_artiste($e_musique)
 		}
 	}
 
+	echo("<br><h1>Vos musiques</h1><hr><br>");
 	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
-	echo("<h1>Vos musiques</h1><hr><br>");
 	$nb_musique= afficher_musiques_artiste($pdo, $_SESSION['id']);
 	echo("<button type='submit'>Confirmer</button>");
 	echo("</form>");
 
 	/*Insérer Musique*/
+	echo("<br><h1>Ajout musique</h1><hr><br>");
 	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
-	echo("<h2>Ajout musique</h2><hr><br>");
 	echo("<label>Nom<input type='text' name = 'nom_m' required='required'></label><br>");
 	echo("<label>Lien vidéo<input type='text' name = 'lien_m' required='required'></label><br>");
 	echo("<label>duree (hh:mm:ss)<input type='text' name = 'duree_m' required='required' pattern='\d\d:\d\d:\d\d'></label><br>");
 	echo("<label>Description<textarea name='description_m' placeholder='Rythmé et dansante un plaisir'></textarea></label><br>");
 	echo("<label>Paroles<textarea name='paroles_m' placeholder='Never gonna give you up, never gonna let you down [...]'></textarea></label><br>");
-	echo $e_musique;
 	echo("<button type='submit'>Confirmer</button>");
 	echo("</form>");
 
 	/*--Suppression--*/
+	echo("<br><h1>Suppression musique</h1><hr><br>");
 	echo("<form class='modif' action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>");
-	echo("<h2>Suppression musique</h2>");
 	echo("<label>Nom<input type='text' name='s_m_id' required='required'></label>");
 	echo("<button type='submit'>Confirmer</button>");
 	echo("</form>");

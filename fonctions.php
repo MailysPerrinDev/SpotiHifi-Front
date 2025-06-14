@@ -56,7 +56,7 @@ function creation_recherche($pdo, $valeur)
     
     if (count($tags) > 7) /*Si on en a plus de 6 alors on en selectionne au hazard*/
     {
-        $tags_aleat = array_rand($tags, 7);
+        $tags_aleat = array_rand($tags, 6);
         
         foreach ($tags_aleat as $i)
         {

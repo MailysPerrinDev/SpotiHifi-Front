@@ -431,6 +431,8 @@ nav a
 .carte_musique .tag:nth-child(3)
 {
     width: fit-content;
+    
+    text-align: center;
 }
 
 /*Playlists et Albums*/
@@ -570,9 +572,7 @@ nav a
     }
     
     form 
-    {
-
-        
+    {  
         label 
         {
             display: flex;
@@ -583,6 +583,12 @@ nav a
         input 
         {
             border: 2px solid var(--primaire);
+        }
+        
+        tr
+        {
+            border: none;
+            background-color: none;
         }
     }
     
